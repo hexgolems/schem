@@ -1,0 +1,58 @@
+.hwstruct-array {
+	list-style-type: none;
+	background-color: #bbbbbb;
+	-webkit-padding-start: 0px;
+	clear: both;
+	margin: 0;
+	margin-left:10px;
+	border: solid;
+	border-color: #333;
+	border-width: 2px;
+	width: 100%;
+}
+
+
+.hwstruct-array-elem {
+	clear: both;
+ border-bottom: solid;
+ border-bottom-color: #999;
+ border-bottom-width: 1px;
+
+}
+
+.hwstruct-obj {
+	list-style-type: none;
+	background-color: #bbbbbb;
+	-webkit-padding-start: 0px;
+	margin-left: 10px;
+	clear: both;
+#border-left: solid;
+#border-left-color: #333;
+#border-left-width: 2px;
+}
+
+.hwstruct-obj-elem {
+	width: 100%;
+	clear: both;
+}
+
+
+.hwodd {
+	background-color: #b0b0b0;
+}
+
+.hwstruct-title {
+	padding-right: 4px;
+	float: left;
+}
+
+.hwstruct-content {
+	padding-right: 4px;
+}
+
+.hw-window-frame.register-struct-view{
+	overflow: hidden;
+	border: solid;
+	background-color: #bbbbbb;
+	overflow-y: scroll;
+}

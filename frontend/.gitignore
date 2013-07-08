@@ -1,0 +1,15 @@
+*.swp
+*.swo
+*.rdb
+*.un~
+*.o
+*.a
+a.out
+.tags
+tags
+coverage/**/*
+doc/**/*
+.yardoc
+run/log
+error.log
+run/config/dbg.conf
