@@ -103,6 +103,7 @@ proper formatting and with no ability to edit them (TODO issue).
 
 Editing regsiters
 ![Editing regsiters](http://hexgolems.github.io/schem/gifs/v0.2/register.gif)
+
 Taking a jump by changing flags
 ![Taking a jump by changing flags](http://hexgolems.github.io/schem/gifs/v0.2/regtoggle.gif)
 
@@ -132,8 +133,10 @@ but in the future labels will be used, if they are available.
 
 Adding and deleting breakpoints
 ![Adding and deleting breakpoints](http://hexgolems.github.io/schem/gifs/v0.2/breakpoint.gif)
+
 Entering and leaving functions
 ![Entering and leaving functions](http://hexgolems.github.io/schem/gifs/v0.2/enterleave.gif)
+
 Goto label and adding a new label
 ![Goto label and adding a new label](http://hexgolems.github.io/schem/gifs/v0.2/label.gif)
 
