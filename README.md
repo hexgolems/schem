@@ -78,10 +78,10 @@ possible to import type information, etc. from IDA.
 
 
 
-Features:
+Features
 =========
 
-Memory view:
+Memory view
 ------------
 Memory views supporting types and inline display of additional data. This is
 helpful if used with custom PIN instrumentations that infer additional
@@ -90,20 +90,20 @@ can add type information to any part of the memory. While there is a POC
 implementation that can be used to increment 1/2/4/8 byte integers, there is no
 proper way to modify memory in meaningful ways (TODO issue) [GIF]
 
-Register view:
+Register view
 --------------
 Registers can contain sub-registers which will be displayed in a tree like
 structure. [GIF] Special registers will currently only be displayed without
 proper formatting and with no ability to edit them (TODO issue).
 
-Stack view:
+Stack view
 -----------
 The stack view is currently rather simple and will only display the WORDS above
 the stack pointer. In upcoming releases more information will be added to this
 such as displaying the stack frames and function arguments in the stack view
 (TODO issue)
 
-Code view:
+Code view
 ----------
 The code view contains a syntax-highlighted disassembly of the code. Hovering opcodes
 will display a short description of the instruction. Using the same mechanism as
@@ -120,13 +120,13 @@ with new assembly (TODO issue) and display jump paths (TODO issue).
 Additionally, currently addresses are always displayed as addresses,
 but in the future labels will be used, if they are available.  [GIF]
 
-Expression View:
+Expression View
 ----------------
 The expression view allows the user to evaluate given ruby snippet on every
 stop to supply her/him with up-to-date information whenever the debugger stops.
 [GIF]
 
-Disassembly:
+Disassembly
 ------------
 Currently, Schem relies on the disassembly provided by Metasm in the
 `fast_deep` mode. If the binary is obfuscated it would be reasonable to use the
@@ -139,7 +139,7 @@ box). All disassembly information is stored in a per-section static type
 mapping. This mapping can be modified easily by the frontend or other tools but
 the format should be better documented (TODO issue 13).
 
-Controller:
+Controller
 -----------
 The controller mainly consists of services and plugins. Plugins will be
 started in their own thread, while services will only provide functionality.
@@ -154,7 +154,7 @@ then provide the frontend with rendered HTML strings that are displayed as well
 as event handlers for context menu actions.
 
 
-Setup:
+Setup
 ======
 1. check out github
 2. compile coffeescript
