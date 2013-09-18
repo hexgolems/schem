@@ -52,34 +52,64 @@ def run
   end
 end
 
+def install(cmd)
+    puts "Now running #{cmd}"
+  if cmd =~ /\Agem install/
+    if @with_root
+      system("sudo", cmd)
+    else
+      system(cmd)
+    end
+  else
+    system(cmd)
+  end
+end
+
+def with_root?
+  puts "Would you like to install you gems with root? (Answer no if you use rvm or have another valid reason)"
+  loop do
+    print "Please answer with: [y/n] "
+    answer = STDIN.gets.strip
+    if answer == "y"
+      @with_root == true
+      break
+    end
+    if answer == "n"
+      @with_root == false
+      break
+    end
+  end
+end
+
 def setup
-  system('gem install rspec')
-  system('gem install yard')
-  system('gem install yard-rspec')
-  system('gem install simplecov')
-  system('gem install rubocop')
-  system('gem install wrong')
-  system('sudo apt-get install inotify-tools')
+  with_root?
+  install('gem install rspec')
+  install('gem install yard')
+  install('gem install yard-rspec')
+  install('gem install simplecov')
+  install('gem install rubocop')
+  install('gem install wrong')
+  install('sudo apt-get install inotify-tools')
   project_dependencies
 end
 
 def project_dependencies
-  system('gem install whittle')
-  system('gem install redis')
-  system('gem install reel')
-  system('gem install pry')
-  system('gem install pry-rescue')
-  system('gem install pry-debugger')
-  system('sudo apt-get install redis-server')
-  system('sudo apt-get install coffeescript')
-  system('sudo apt-get install gdbserver')
-  system('sudo apt-get install gdb')
-  system('sudo apt-get install mercurial')
-  system('sudo apt-get install git')
-  system('cd ..; mkdir dependencies')
-  system('cd ../dependencies; git clone https://github.com/meh/ruby-thread.git thread')
-  system('cd ../dependencies; git clone https://github.com/ranmrdrakono/gdb-mi-parser')
-  system('cd ../dependencies; hg clone https://code.google.com/p/metasm/')
+  install('gem install whittle')
+  install('gem install redis')
+  install('gem install reel')
+  install('gem install pry')
+  install('gem install pry-rescue')
+  install('gem install pry-debugger')
+  install('sudo apt-get install redis-server')
+  install('sudo apt-get install coffeescript')
+  install('sudo apt-get install gdbserver')
+  install('sudo apt-get install gdb')
+  install('sudo apt-get install mercurial')
+  install('sudo apt-get install git')
+  install('cd ..; mkdir dependencies')
+  install('cd ../dependencies; git clone https://github.com/meh/ruby-thread.git thread')
+  install('cd ../dependencies; git clone https://github.com/ranmrdrakono/gdb-mi-parser')
+  install('cd ../dependencies; hg clone https://code.google.com/p/metasm/')
 end
 
 
