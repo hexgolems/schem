@@ -56,7 +56,7 @@ def install(cmd)
     puts "Now running #{cmd}"
   if cmd =~ /\Agem install/
     if $with_root
-      system("sudo", cmd)
+      system("sudo #{cmd}")
     else
       system(cmd)
     end
@@ -71,11 +71,11 @@ def with_root?
     print "Please answer with: [y/n] "
     answer = STDIN.gets.strip
     if answer == "y"
-      $with_root == true
+      $with_root = true
       break
     end
     if answer == "n"
-      $with_root == false
+      $with_root = false
       break
     end
   end
@@ -89,7 +89,7 @@ def setup
   install('gem install simplecov')
   install('gem install rubocop')
   install('gem install wrong')
-  install('sudo apt-get install inotify-tools')
+  install('sudo apt-get -y install inotify-tools')
   project_dependencies
 end
 
@@ -100,12 +100,12 @@ def project_dependencies
   install('gem install pry')
   install('gem install pry-rescue')
   install('gem install pry-debugger')
-  install('sudo apt-get install redis-server')
-  install('sudo apt-get install coffeescript')
-  install('sudo apt-get install gdbserver')
-  install('sudo apt-get install gdb')
-  install('sudo apt-get install mercurial')
-  install('sudo apt-get install git')
+  install('sudo apt-get -y install redis-server')
+  install('sudo apt-get -y install coffeescript')
+  install('sudo apt-get -y install gdbserver')
+  install('sudo apt-get -y install gdb')
+  install('sudo apt-get -y install mercurial')
+  install('sudo apt-get -y install git')
   install('cd ..; mkdir dependencies')
   install('cd ../dependencies; git clone https://github.com/meh/ruby-thread.git thread')
   install('cd ../dependencies; git clone https://github.com/ranmrdrakono/gdb-mi-parser')
