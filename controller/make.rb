@@ -55,7 +55,7 @@ end
 def install(cmd)
     puts "Now running #{cmd}"
   if cmd =~ /\Agem install/
-    if @with_root
+    if $with_root
       system("sudo", cmd)
     else
       system(cmd)
@@ -71,11 +71,11 @@ def with_root?
     print "Please answer with: [y/n] "
     answer = STDIN.gets.strip
     if answer == "y"
-      @with_root == true
+      $with_root == true
       break
     end
     if answer == "n"
-      @with_root == false
+      $with_root == false
       break
     end
   end
