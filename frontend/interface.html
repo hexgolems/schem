@@ -1,36 +1,75 @@
 <html>
 <head>
-<title>Testpage for Schem::DBG</title>
-<link rel="stylesheet" type="text/css" href="struct_widget/struct.css" />
-<link rel="stylesheet" type="text/css" href="table_widget/table.css" />
-<link rel="stylesheet" type="text/css" href="cmd_widget/cmd.css" />
+	<title>Testpage for Schem::DBG</title>
+
+	<link rel="stylesheet" type="text/css" href="layout.css" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="struct_widget/struct.css" />
+	<link rel="stylesheet" type="text/css" href="cmd_widget/cmd.css" />
+	<link rel="stylesheet" type="text/css" href="lane_widget/lane.css" />
+	<link rel="stylesheet" type="text/css" href="buttons_widget/buttons.css" />
+	<link rel="stylesheet" type="text/css" href="../jquery.contextmenu.css" media="all">
 </head>
 <body>
-test
-<table>
+
+<table border=0 cellspacing='2px' cellpadding='0px'>
+
 	<tr>
-		<td>
-			<div class="hw-window-frame code-table-view" tabindex="0"> </div> 
+		<td valign="bottom" colspan = 3>
+			<div class = "menu-bar" >
+			</div>
 		</td>
 		<td>
-			<div class="hw-window-frame register-struct-view" tabindex="0"> </div>
+			<img class="logo" src="logo_and_title.png" width = 230>
 		</td>
-	<tr>
-	<tr>
-		<!-- <td>
-			<div class="hwwindow-frame mem_table_view" tabindex="0"> </div>
-		</td> -->
-		<td colspan = 2>
-			<div class="hw-cmd-window-frame gdb-controller-view" tabindex="0"> </div>
+	</tr>
+	<tr> 
+
+		<td rowspan=2>
+			<div class="window-frame lane-view cpu-view" plugin="cpuview" tabindex="0"> </div>
 		</td>
+
+		<td>
+			<div class="window-frame struct-view general-register-view" plugin="generalregisters" tabindex="0"> </div>
+		</td>
+
+		<td>
+			<div class="window-frame struct-view special-register-view" plugin="specialregisters" tabindex="0"> </div>
+		</td>
+
+		<td rowspan=2>
+			<div class="window-frame lane-view stack-view" plugin="stackview" tabindex="0"> </div>
+		</td>
+
+	</tr>
 	<tr>
+		<td colspan=2>
+					<div class="window-frame lane-view hex-view" plugin="memview" tabindex="0"> </div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan = 3>
+			<div class="window-frame gdb-controller-view" tabindex="0"> </div> 
+		</td>
+
+		<td>
+			<div class="window-frame struct-view watch-expression-view" plugin="watchexpression" tabindex="0"> </div>
+		</td>
+	</tr>
 </table>
 
-	
+<div class="dialog-spawner" tabindex="0"> </div>
+
 <script src="jquery-2.0.1.js"></script> 
+<script src="jquery.contextmenu.js"></script>
+<script src="BigInt.js"></script>
+
 <script src="sockets.js"></script> 
 <script src="struct_widget/struct.js"></script> 
-<script src="table_widget/table.js"></script> 
 <script src="cmd_widget/cmd.js"></script> 
+<script src="buttons_widget/buttons.js"></script> 
+<script src="lane_widget/lane.js"></script> 
+<script src="dialog_plugin/dialog.js"></script> 
+
 </body>
 </html>

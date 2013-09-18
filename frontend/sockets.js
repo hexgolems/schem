@@ -5,16 +5,16 @@ var PluginAdapter,
 PluginAdapter = (function() {
 
   function PluginAdapter(name) {
-    this.name = name;
     this.send_msg_data = __bind(this.send_msg_data, this);
-
+    this.name = name;
     this.queued = [];
     this.get_socket();
   }
 
   PluginAdapter.prototype.get_socket = function() {
     var _this = this;
-    this.socket = new WebSocket("ws://localhost:8000/spawn_plugin/" + this.name);
+    console.log(document.URL);
+    this.socket = new WebSocket("ws://" + window.location.host + "/spawn_plugin/" + this.name);
     this.socket.onopen = function() {
       var val, _, _i, _len, _ref, _results;
       _this.opened = true;

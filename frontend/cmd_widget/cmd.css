@@ -1,27 +1,16 @@
-.hw-cmd-log {
-	width: 90%
+.cv-log {
+	width: 100%;
+	height: 100%;
 	overflow-y: scroll;
 }
 
-.hw-cmd-result {
+.cv-result {
 	margin: 0;
-	border-width: 1px;
-	border-color: #999;
-	border-bottom-style: solid;
 	margin-bottom: 0px;
 	font-size: small;
 }
 
-.hw-cmd-window-frame {
-	width: 800px;
-	height: 100px;
-	overflow: hidden;
-	border: solid;
-	background-color: #bbbbbb;
-	overflow-y: scroll;
-}
-
-.hw-cmd-line {
+.cv-line {
 	width: 100%;
 	font-size: small;
 	height: 16px;

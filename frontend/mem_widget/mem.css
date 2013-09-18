@@ -1,0 +1,31 @@
+.hwtable {
+	background-color: #bbbbbb;
+	border-spacing: 0;
+	width: 100%;
+	position: relative;
+}
+
+.hwtre {
+	background-color: #bbbbbb;
+}
+.hwtro {
+	background-color: #b0b0b0;
+}
+
+.hwtdf {
+	padding: 0;
+}
+
+.hwtd {
+	padding: 0;
+	border-left: solid;
+	border-color: #999;
+	border-left-width: 1px
+}
+
+.hw-window-frame {
+	width: 450px;
+	height: 260px;
+	overflow: hidden;
+	border: solid;
+}

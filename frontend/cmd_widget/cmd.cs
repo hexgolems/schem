@@ -4,16 +4,13 @@ $(document).ready ->
 		foo = new CmdView(this)
 
 class CmdView extends PluginAdapter
-	id:		"cmd_10"
-	div: null
-	log: null
 
 	constructor: (@div) ->
 		super "cmdview"
 		console.log("created cmdline")
 		@div.innerHTML = "
-			<input class = 'hw-cmd-line' type = 'text' ></input>
-			<div class = 'hw-cmd-log'> </div>
+			<input class = 'cv-line' type = 'text' ></input>
+			<div class = 'cv-log'> </div>
 		"
 		@log = $(@div).children("div").first().get(0)
 		@input = $(@div).children("input").first().get(0)
@@ -32,4 +29,4 @@ class CmdView extends PluginAdapter
 		this.send_msg_data( JSON.stringify({type: "cmd", line: cmd}) )
 	
 	add_msg: (msg) ->
-		$(@log).prepend("<p class='hw-cmd-result'>#{msg}</p>")
+		$(@log).prepend("<p class='cv-result'>#{msg}</p>")

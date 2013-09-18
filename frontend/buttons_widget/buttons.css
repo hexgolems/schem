@@ -1,0 +1,25 @@
+.menu-bar button {
+	width: 18px;
+	height: 18px;
+	padding: 0px;
+	margin-right: 5px;
+	border: 1px;
+	border-style: solid;
+	border-color: #ffffff;
+}
+
+button#play {
+	background: url('../icons/used/arrow.png');
+}
+
+button#stepi {
+	background: url('../icons/used/arrow-step.png');
+}
+
+button#stepo {
+	background: url('../icons/used/arrow-step-over.png');
+}
+
+button#restart {
+	background: url('../icons/used/arrow-stop-180.png');
+}

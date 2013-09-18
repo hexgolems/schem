@@ -1,0 +1,74 @@
+
+.lv-meta-info {
+	border-spacing: 0px;
+	width: 100%;
+}
+
+.lv-meta-info td {
+	border:0;
+	padding:0px;
+}
+
+.lv-meta-info span {
+	padding-left:10px;
+}
+
+.lv-max-width {
+	width: 100%;
+}
+
+.lv-meta-info .sep {
+	border: 0px;
+	border-color: black;
+	border-left: 1px;
+	border-style: solid;
+}
+
+.lv-mem-table {
+	border-spacing: 0;
+	width: 100%;
+	position: relative;
+	text-align: center;
+}
+
+.lv-mem-table td {
+	border-width: 0px;
+	padding:0px;
+	padding-left: 2px;
+}
+
+.lane-view {
+	position: relative;
+}
+
+.lv-content-table {
+	position: absolute;
+}
+
+.lv-content {
+	overflow: hidden;
+}
+
+.lv-annotation {
+	overflow: hidden;
+	box-sizing: border-box;
+	text-align: left;
+}
+
+.lv-lane table {
+	text-align: center;
+	border-spacing: 0px;
+}
+
+.lv-mem-table td.lv-lane-sep {
+	border-width: 1px;
+	border-color: #75715E;
+	border-style: solid;
+	border-right-width: 0px;
+	border-bottom: 0;
+	border-top: 0;
+}
+
+.address-lane {
+	white-space:nowrap;
+}

@@ -1,58 +1,52 @@
-.hwstruct-array {
+.sv-array {
 	list-style-type: none;
-	background-color: #bbbbbb;
 	-webkit-padding-start: 0px;
 	clear: both;
 	margin: 0;
 	margin-left:10px;
-	border: solid;
-	border-color: #333;
-	border-width: 2px;
 	width: 100%;
 }
 
 
-.hwstruct-array-elem {
+.sv-array-elem {
 	clear: both;
- border-bottom: solid;
- border-bottom-color: #999;
- border-bottom-width: 1px;
-
 }
 
-.hwstruct-obj {
+.sv-obj {
 	list-style-type: none;
-	background-color: #bbbbbb;
 	-webkit-padding-start: 0px;
-	margin-left: 10px;
+	/*margin-left: 10px;*/
 	clear: both;
-#border-left: solid;
-#border-left-color: #333;
-#border-left-width: 2px;
+	-webkit-margin-after: 0px;
+	-webkit-margin-before: 0px;
 }
 
-.hwstruct-obj-elem {
+.sv-obj-elem {
 	width: 100%;
+	margin-left: 8px;
 	clear: both;
 }
 
-
-.hwodd {
-	background-color: #b0b0b0;
-}
-
-.hwstruct-title {
-	padding-right: 4px;
+.sv-align1 {
+	min-width: 40px;
 	float: left;
 }
 
-.hwstruct-content {
+.sv-align2 {
+	min-width: 32px;
+	float: left;
+}
+
+.sv-title {
+	/*padding-right: 4px;*/
+	margin-left: -8px;
+	float: left;
+}
+
+.sv-content {
 	padding-right: 4px;
 }
 
-.hw-window-frame.register-struct-view{
-	overflow: hidden;
-	border: solid;
-	background-color: #bbbbbb;
+.struct-view {
 	overflow-y: scroll;
 }

@@ -1,0 +1,58 @@
+.window-frame {
+	box-sizing: border-box;
+	overflow: hidden;
+	border: solid;
+}
+
+.logo {
+  display: block;
+  float: right;
+}
+
+.menu-bar {
+	height: 24px;
+}
+
+.cpu-view {
+	width: 400px;
+	height: 444px;
+}
+
+.hex-view {
+	width: 601px;
+	height: 200px;
+}
+
+.stack-view {
+	width: 241px;
+	height: 444px;
+}
+
+.general-register-view{
+	width: 200px;
+	height: 242px;
+}
+
+.general-register-view::-webkit-scrollbar { 
+    display: none; 
+}
+
+.special-register-view{
+	width: 399px;
+	height: 242px;
+}
+
+.special-register-view::-webkit-scrollbar { 
+    display: none; 
+}
+
+
+.gdb-controller-view {
+	height: 100px;
+	width: 1003px;
+}
+
+.watch-expression-view {
+	width: 241px;
+	height: 100px;
+}

@@ -1,11 +1,13 @@
 class PluginAdapter
 
-	constructor: (@name) ->
+	constructor: (name) ->
+		@name = name
 		@queued =[] # a queue for all messages send befor the socket is opened sucessfully
 		this.get_socket()
 
 	get_socket: () ->
-		@socket = new WebSocket("ws://localhost:8000/spawn_plugin/#{@name}")
+		console.log(document.URL)
+		@socket = new WebSocket("ws://#{window.location.host}/spawn_plugin/#{@name}")
 		@socket.onopen = () =>
 			@opened = true
 			this.handle_open()

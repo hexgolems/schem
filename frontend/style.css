@@ -1,0 +1,105 @@
+
+/*@import url(http://fonts.googleapis.com/css?family=Reenie+Beanie);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono);
+@font-face {
+	font-family: Adobe;
+	src: url('/static/fonts/SourceCodePro-Regular.ttf')
+}
+
+* {
+    font-family: "Ubuntu Mono";
+} */
+
+
+ * {
+	font-family: monospace;
+}
+
+body {
+	background-color: #272822;
+	color: #FFFFFF;
+}
+
+.number {
+	color: #d5911f;
+}
+.register {
+	color: #a6e22e;
+}
+.jump {
+	color: #e62678;
+}
+.call {
+	color: #60c9dc;
+}
+.move {}
+.float {}
+.arith {}
+.logic {}
+.raw {
+	color: #75715E;
+}
+
+.address-lane {
+	color: #75715E;
+}
+
+
+.window-frame {
+	border-width: 1px;
+}
+
+.lv-annotation {
+	border: solid;
+	border-top: 0;
+	border-width: 1px;
+}
+
+.sv-odd {
+	background-color:  #22231B;
+}
+
+.sv-array {
+	border-color: #75715E;
+	border-width: 2px;
+	/*border: solid;*/
+}
+
+
+.sv-array-elem {
+	border-bottom: solid;
+	border-bottom-color: #999;
+	border-bottom-width: 1px;
+	background-color: #272822;
+}
+
+.sv-obj {
+	background-color: #272822;
+}
+
+
+
+.cv-result {
+	border-width: 1px;
+	border-color: #75715E;
+	border-bottom-style: solid;
+}
+
+
+.hl-ip-color {
+	color: #E62678;
+}
+
+.hl-bp-color {
+	color: #f01010;
+}
+
+tr .hl-ip {
+/*background-color: #E62678;*/
+	text-decoration: underline;
+}
+
+tr .reg-changed {
+	color: #E62678;
+}
+
