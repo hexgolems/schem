@@ -9,6 +9,7 @@ class DbgConfig < Configer::Template
   auto_write false
 
   value name: 'controller' do
+    value name: 'debug_with_pry', default: true, docu: 'set to true to caputre exceptions using the pry-rescue gem'
   end
 
   value name: 'webserver' do

@@ -1,7 +1,6 @@
 # encoding: utf-8
 require_relative './plugin.rb'
 require 'redis'
-require 'celluloid/redis'
 require 'pp'
 
 class GDBPlugin < Schem::Plugin
@@ -10,15 +9,6 @@ class GDBPlugin < Schem::Plugin
         init_debugger_api(@debugger)
         redis_connection('gdb_in')
         redis_connection('gdb_out')
-    end
-
-    # this function register the callback on different gdb events and publishes
-    # the content in the `gdb_out` channel
-    def auto_run_start
-      act = Actor.current
-      @debugger.register_type_hook('console','exec','log') do |msg|
-        act.async.gdb_hook(msg.value)
-      end
     end
 
     # this function is used as a callback in auto_run_start and will write a string to the channel `gdb_out`
@@ -34,7 +24,6 @@ class GDBPlugin < Schem::Plugin
 
     def  listen_subscription_handler(on)
       on.subscribe do |channel, subscriptions|
-        puts "GDBplugin subscribed to ##{channel} (#{subscriptions} subscriptions)"
       end
 
       on.message do |channel, message|
@@ -42,11 +31,15 @@ class GDBPlugin < Schem::Plugin
       end
 
       on.unsubscribe do |channel, subscriptions|
-        puts "GDBplugin: unsubscribed from ##{channel} (#{subscriptions} subscriptions)"
       end
     end
 
-    def auto_run_listen
+    def auto_run
+
+        @debugger.register_type_hook('console','exec','log') do |msg|
+          self.gdb_hook(msg.value)
+        end
+
         begin
           redis_connection('gdb_in').subscribe(:gdb_in) do |on|
             listen_subscription_handler(on)
@@ -61,4 +54,4 @@ class GDBPlugin < Schem::Plugin
 
 end
 
-register_plugin(GDBPlugin)
+#register_plugin(GDBPlugin)

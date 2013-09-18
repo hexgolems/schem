@@ -1,0 +1,446 @@
+aad ASCII adjust AX before division
+aam ASCII adjust AX after multiplication
+aas ASCII adjust AL after subtraction
+adc Add with carry
+add Add
+and Logical AND
+call  Call procedure
+cbw Convert byte to word
+clc Clear carry flag
+cld Clear direction flag
+cli Clear interrupt flag
+cmc Complement carry flag
+cmp Compare operands
+cmpsb Compare bytes in memory
+cmpsw Compare words
+cwd Convert word to doubleword
+daa Decimal adjust AL after addition
+das Decimal adjust AL after subtraction
+dec Decrement by 1
+div Unsigned divide
+esc Used with floating-point unit
+hlt Enter halt state
+idiv  Signed divide
+imul  Signed multiply
+in  Input from port
+inc Increment by 1
+int Call to interrupt
+into  Call to interrupt if overflow
+iret  Return from interrupt
+jo  Jump if overflow  (OF = 1)
+jno Jump if not overflow      (OF = 0)
+js  Jump if sign      (SF = 1)
+jns Jump if not sign      (SF = 0)
+je  Jump if zero (ZF = 1)
+jz  Jump if zero (ZF = 1)
+jne Jump if not zero (ZF = 0)
+jnz Jump if not zero (ZF = 0)
+jb  Jump if below (CF = 1)
+jnae  Jump if below (CF = 1)
+jc  Jump if below (CF = 1)
+jnb Jump if not below (CF = 0)
+jae Jump if not below (CF = 0)
+jnc Jump if not below (CF = 0)
+jbe Jump if below or equal (CF = 1 or ZF = 1)
+jna Jump if below or equal (CF = 1 or ZF = 1)
+ja  Jump if above (CF = 0 and ZF = 0)
+jnbe  Jump if above (CF = 0 and ZF = 0)
+jl  Jump if less (SF != OF)
+jnge  Jump if less (SF != OF)
+jge Jump if greater or equal (SF = OF)
+jnl Jump if greater or equal (SF = OF)
+jle Jump if less or equal (ZF = 1 or SF != OF)
+jng Jump if less or equal (ZF = 1 or SF != OF)
+jg  Jump if greater (ZF = 0 and SF=OF)
+jnle  Jump if greater (ZF = 0 and SF=OF)
+jp  Jump if parity even (PF = 1)
+jpe Jump if parity even (PF = 1)
+jnp Jump if parity odd (PF = 0)
+jpo Jump if parity odd (PF = 0)
+jcxz  Jump if CX register is 0
+jecxz Jump if ECX register is 0
+jcxz  Jump if CX is zero
+jmp Jump
+lahf  Load flags into AH register
+lds Load pointer using DS
+lea Load Effective Address
+les Load ES with pointer
+lock  Assert BUS LOCK signal
+lodsb Load string byte
+lodsw Load string word
+loop  Decrement count; jump if count != 0
+loope Decrement count; jump if count != 0 and ZF=1
+loopz Decrement count; jump if count != 0 and ZF=1
+loopne  Decrement count; jump if count != 0 and ZF=0
+loopnz  Decrement count; jump if count != 0 and ZF=0
+mov Copy values from source to dest
+movsb Move byte from string to string
+movsw Move word from string to string
+mul Unsigned multiply
+neg Two's complement negation
+nop No operation
+not Negate the operand, logical NOT
+or  Logical OR
+out Output to port
+pop Pop data from Stack
+popf  Pop data into flags
+push  Push data onto stack
+pushf Push flags onto stack
+rcl Rotate left (with carry)
+rcr Rotate right (with carry)
+repins  Input ECX bytes from given port into [EDI]
+repmovs Move ECX bytes/words/dwords from ESI to EDI
+repouts Output ECX bytes/words/dwords from [ESI] to the given port
+replods Load ECX bytes/words/dwords from [ESI] to operand
+repstos Fill ECX bytes/words/dwords at [EDI] with operand
+repecmps  Find nonmatching bytes/words/dwords in [EDI] and [ESI]
+repescas  Find non-EAX byte/word/dword starting at [EDI]
+repnecmps Find matching bytes/words/dwords in [EDI] and [ESI]
+repnescas Find AL, starting at [EDI]
+ret Return from procedure
+retn  Return from near procedure
+retf  Return from far procedure
+rol Rotate left
+ror Rotate right
+sahf  Store AH into flags
+sal Shift Arithmetically left (signed shift left)
+sar Shift Arithmetically right (signed shift right)
+sbb Subtraction with borrow
+scasb Compare byte string
+scasw Compare word string
+shl Logical shift left (unsigned shift left)
+shr Shift right (unsigned shift right)
+stc Set carry flag
+std Set direction flag
+sti Set interrupt flag
+stosb Store byte in string
+stosw Store word in string
+sub Subtraction
+test  Logical compare (AND)
+wait  Wait until not busy
+xchg  Exchange data
+xlat  Table look-up translation
+xor Exclusive Or
+bound Check array index against bounds
+enter Enter stack frame
+ins Input from port to string
+leave Leave stack frame
+outs  Output string to port
+popa  Pop all general purpose registers from stack
+pusha Push all general purpose registers onto stack
+arpl  Adjust RPL field of selector
+clts  Clear task-switched flag in register CR0
+lar Load access rights byte
+lgdt  Load global descriptor table
+lidt  Load interrupt descriptor table
+lldt  Load local descriptor table
+lmsw  Load machine status word
+lsl Load segment limit
+ltr Load task register
+sgdt  Store global descriptor table
+sidt  Store interrupt descriptor table
+sldt  Store local descriptor table
+smsw  Store machine status word
+str Store task register
+verr  Verify a segment for reading
+verw  Verify a segment for writing
+bsf Bit scan forward
+bsr Bit scan reverse
+btbit test
+btc Bit test and complement
+btr Bit test and reset
+bts Bit test and set
+cdq Convert double-word to quad-word
+cmpsd Compare string double-word
+cwde  Convert word to double-word
+insd  Input from port to string double-word
+jecxz Jump if ECX is zero
+lfs LGS  Load far pointer
+lss Load stack segment
+lodsd Load string double-word
+loopw LOOPccW  Loop, conditional loop
+loopd LOOPccD  Loop while equal
+movsd Move string double-word
+movsx Move with sign-extension
+movzx Move with zero-extension
+outsd Output to port from string double-word
+popad Pop all double-word (32-bit) registers from stack
+popfd Pop data into EFLAGS register
+pushad  Push all double-word (32-bit) registers onto stack
+pushfd  Push EFLAGS register onto stack
+scasd Scan string data double-word
+setcc Set byte to one on condition, zero otherwise
+shld  Shift left double-word
+shrd  Shift right double-word
+stosd Store string double-word
+bswap Byte Swap
+cmpxchg atomic CoMPare and eXCHanGe
+invd  Invalidate Internal Caches
+invlpg  Invalidate Translation lookaside buffer Entry
+wbinvd  Write Back and Invalidate Cache
+xadd  eXchange and ADD
+cpuid CPU IDentification
+cmpxchg8b CoMPare and eXCHanGe 8 bytes
+rdmsr ReaD from Model-specific register
+rdtsc ReaD Time Stamp Counter
+wrmsr WRite to Model-Specific Register
+rsm Resume from System Management Mode
+rdpmc Read the Performance Monitoring Counter
+syscall Context switch to kernel mode
+sysret  Context switch to user mode
+cmovcc  Conditional move
+sysenter  System call ENTER
+sysexit System call EXIT
+ud2 Undefined Instruction
+maskmovq  Masked Move of Quadword
+movntps Move Aligned Four Packed Single-FP Non Temporal
+movntq  Move Quadword Non-Temporal
+prefetch0 Prefetch Data from Address
+prefetch1 Prefetch Data from Address
+prefetch2 Prefetch Data from Address
+prefetchnta Prefetch Data from Address
+sfence  Store Fence
+clflush Cache Line Flush
+lfence  Load Fence
+maskmovdqu  Masked Move of Double Quadword Unaligned
+mfence  Memory Fence
+movntdq Move Double Quadword Non-Temporal
+movnti  Move Doubleword Non-Temporal
+movntpd Move Packed Double-Precision Floating-Point Values Non-Temporal
+pause Provides a hint to the processor that the following code is a spin loop
+lddqu Load Unaligned Integer 128 bits
+Monitor Setup Monitor Address
+mwait Monitor Wait
+cdqe  Sign extend EAX into RAX
+cqo Sign extend RAX into RDX:RAX
+cmpsq CoMPare String Quadword
+cmpxchg16b  CoMPare and eXCHanGe 16 Bytes
+iretq 64-bit Return from Interrupt
+iretd 32-bit Return from Interrupt
+jrcxz Jump if RCX is zero
+lodsq LOaD String Quadword
+movsxd  MOV with Sign Extend 32-bit to 64-bit
+popfq POP RFLAGS Register
+pushfq  PUSH RFLAGS Register
+rdtscp  ReaD Time Stamp Counter and Processor ID
+scasq SCAn String Quadword
+stosq STOre String Quadword
+swapgs  Exchange GS base with KernelGSBase MSR
+clgi  Clear Global Interrupt Flag
+invlpga Invalidate TLB Entry in a Specified ASID
+skinit  Secure Init and Jump With Attestation
+stgi  Set Global Interrupt Flag
+vmload  Load State From VMCB
+vmmcall Call VMM
+vmrun Run Virtual Machine
+vmsave  Save State To VMCB
+f2xm1 2^x - 1
+fabs  Absolute value
+fadd  Add
+faddp Add and pop
+fbld  Load BCD
+fbstp Store BCD and pop
+fchs  Change sign
+fclex Clear exceptions
+fcom  Compare
+fcomp Compare and pop
+fcompp  Compare and pop twice
+fdecstp Decrement floating point stack pointer
+fdisi Disable interrupts
+fdiv  Divide
+fdivp Divide and pop
+fdivr Divide reversed
+fdivrp  Divide reversed and pop
+feni  Enable interrupts
+ffree Free register
+fiadd Integer add
+ficom Integer compare
+ficomp  Integer compare and pop
+fidiv Integer divide
+fidivr  Integer divide reversed
+fild  Load integer
+fimul Integer multiply
+fincstp Increment floating point stack pointer
+finit Initialize floating point processor
+fist  Store integer
+fistp Store integer and pop
+fisub Integer subtract
+fisubr  Integer subtract reversed
+fld Floating point load
+fld1  Load 1.0 onto stack
+fldcw Load control word
+fldenv  Load environment state
+fldenvw Load environment state, 16-bit
+fldl2e  Load log2(e) onto stack
+fldl2t  Load log2(10) onto stack
+fldlg2  Load log10(2) onto stack
+fldln2  Load ln(2) onto stack
+fldpi Load pi onto stack
+fldz  Load 0.0 onto stack
+fmul  Multiply
+fmulp Multiply and pop
+fnclex  Clear exceptions, no wait
+fndisi  Disable interrupts, no wait
+fneni Enable interrupts, no wait
+fninit  Initialize floating point processor, no wait
+fnop  No operation
+fnsave  Save FPU state, no wait, 8-bit
+fnsavew Save FPU state, no wait, 16-bit
+fnstcw  Store control word, no wait
+fnstenv Store FPU environment, no wait
+fnstenvw  Store FPU environment, no wait, 16-bit
+fnstsw  Store status word, no wait
+fpatan  Partial arctangent
+fprem Partial remainder
+fptan Partial tangent
+frndint Round to integer
+frstor  Restore saved state
+frstorw Restore saved state
+fsave Save FPU state
+fsavew  Save FPU state, 16-bit
+fscale  Scale by factor of 2
+fsqrt Square root
+fst Floating point store
+fstcw Store control word
+fstenv  Store FPU environment
+fstenvw Store FPU environment, 16-bit
+fstp  Store and pop
+fstsw Store status word
+fsub  Subtract
+fsubp Subtract and pop
+fsubr Reverse subtract
+fsubrp  Reverse subtract and pop
+ftst  Test for zero
+fwait Wait while FPU is executing
+fxam  Examine condition flags
+fxch  Exchange registers
+fxtract Extract exponent and significand
+fyl2x y*log2(x)
+fyl2xp1 y*log2(x+1)
+fsetpm  Set protected mode
+fcos  Cosine
+fldenvd Load environment state, 32-bit
+fsaved  Save FPU state, 32-bit
+fstenvd Store FPU environment, 32-bit
+fprem1  Partial remainder
+frstord Restore saved state, 32-bit
+fsin  Sine
+fsincos Sine and cosine
+fstenvd Store FPU environment, 32-bit
+fucom Unordered compare
+fucomp  Unordered compare and pop
+fucompp Unordered compare and pop twice
+addps Adds 4 single-precision (32bit) floating-point values to 4 other single-precision floating-point values.
+addss Adds the lowest single-precision values, top 3 remain unchanged.
+subps Subtracts 4 single-precision floating-point values from 4 other single-precision floating-point values.
+subss Subtracts the lowest single-precision values, top 3 remain unchanged.
+mulps Multiplies 4 single-precision floating-point values with 4 other single-precision values.
+mulss Multiplies the lowest single-precision values, top 3 remain unchanged.
+divps Divides 4 single-precision floating-point values by 4 other single-precision floating-point values.
+divss Divides the lowest single-precision values, top 3 remain unchanged.
+rcpps Reciprocates (1/x) 4 single-precision floating-point values.
+rcpss Reciprocates the lowest single-precision values, top 3 remain unchanged.
+sqrtps  Square root of 4 single-precision values.
+sqrtss  Square root of lowest value, top 3 remain unchanged.
+rsqrtps Reciprocal square root of 4 single-precision floating-point values.
+rsqrtss Reciprocal square root of lowest single-precision value, top 3 remain unchanged.
+maxps Returns maximum of 2 values in each of 4 single-precision values.
+maxss Returns maximum of 2 values in the lowest single-precision value. Top 3 remain unchanged.
+minps Returns minimum of 2 values in each of 4 single-precision values.
+minss Returns minimum of 2 values in the lowest single-precision value, top 3 remain unchanged.
+pavgb Returns average of 2 values in each of 8 bytes.
+pavgw Returns average of 2 values in each of 4 words.
+psadbw  Returns sum of absolute differences of 8 8bit values. Result in bottom 16 bits.
+pextrw  Extracts 1 of 4 words.
+pinsrw  Inserts 1 of 4 words.
+pmaxsw  Returns maximum of 2 values in each of 4 signed word values.
+pmaxub  Returns maximum of 2 values in each of 8 unsigned byte values.
+pminsw  Returns minimum of 2 values in each of 4 signed word values.
+pminub  Returns minimum of 2 values in each of 8 unsigned byte values.
+pmovmskb  builds mask byte from top bit of 8 byte values.
+pmulhuw Multiplies 4 unsigned word values and stores the high 16bit result.
+pshufw  Shuffles 4 word values. Takes 2 128bit values (source and dest) and an 8-bit immediate value, and then fills in each Dest 32-bit value from a Source 32-bit value specified by the immediate. The immediate byte is broken into 4 2-bit values.
+andnps  Logically ANDs 4 single-precision values with the logical inverse (NOT) of 4 other single-precision values.
+andps Logically ANDs 4 single-precision values with 4 other single-precision values.
+orps  Logically ORs 4 single-precision values with 4 other single-precision values.
+xorps Logically XORs 4 single-precision values with 4 other single-precision values.
+cmpeqps Compares 4 single-precision values (Equal to)
+cmpltps Compares 4 single-precision values (Less than)
+cmpleps Compares 4 single-precision values (Less than or equal to)
+cmpnneps  Compares 4 single-precision values (Not Equal).
+cmpnltps  Compares 4 single-precision values (Not less than).
+cmpnleps  Compares 4 single-precision values (Not less than or equal).
+cmpordps  Compares 4 single-precision values (ordered).
+cmpunordps  Compares lowest 2 single-precision values.(unordered)
+cmpeqps Compares    lowest 2 single-precision values (Equal to)
+cmpltps Compares    lowest 2 single-precision values (Less than)
+cmpleps Compares    lowest 2 single-precision values (Less than or equal to)
+cmpnneps  Compares    lowest 2 single-precision values (Not Equal).
+cmpnltps  Compares    lowest 2 single-precision values (Not less than).
+cmpnleps  Compares    lowest 2 single-precision values (Not less than or equal).
+cmpordps  Compares    lowest 2 single-precision values (ordered).
+cmpunordps  Compares lowest 2 single-precision values.(unordered)
+comiss  Compares lowest 2 single-recision values and stores result in EFLAGS.
+ucomiss Compares lowest 2 single-precision values and stores result in EFLAGS. (QNaNs don't throw exceptions with ucomiss, unlike comiss.)
+cvtpi2ps  Converts 2 32bit integers to 32bit floating-point values. Top 2 values remain unchanged.
+cvtps2pi  Converts 2 32bit floating-point values to 32bit integers.
+cvtsi2ss  Converts 1 32bit integer to 32bit floating-point value. Top 3 values remain unchanged.
+cvtss2si  Converts 1 32bit floating-point value to 32bit integer.
+cvttps2pi Converts 2 32bit floating-point values to 32bit integers using truncation.
+cvttss2si Converts 1 32bit floating-point value to 32bit integer using truncation.
+fxrstor Restores FP and SSE State.
+fxsave  Stores FP and SSE State.
+ldmxcsr Loads the mxcsr register.
+stmxcsr Stores the mxcsr register.
+movaps  Moves a 128bit value.
+movhlps Moves high half to a low half.
+movlhps Moves low half to upper halves.?
+movhps  Moves 64bit value into top half of an xmm register.
+movlps  Moves 64bit value into bottom half of an xmm register.
+movmskps  Moves top bits of single-precision values into bottom 4 bits of a 32bit register.
+movss Moves the bottom single-precision value, top 3 remain unchanged if the destination is another xmm register, otherwise they're set to zero.
+movups  Moves a 128bit value. Address can be unaligned.
+maskmovq  Moves a 64bit value according to a mask.
+movntps Moves a 128bit value directly to memory, skipping the cache. (NT stands for "Non Temporal".)
+movntq  Moves a 64bit value directly to memory, skipping the cache.
+shufps  Shuffles 4 single-precision values. Complex.
+unpckhps  Unpacks single-precision values from high halves.
+unpcklps  Unpacks single-precision values from low halves.
+prefetcht0  Fetches a cache-line of data into all levels of cache.
+prefetcht1  Fetches a cache-line of data into all but the highest levels of cache.
+prefetcht2  Fetches a cache-line of data into all but the two highest levels of cache.
+prefetchnta Fetches data into only the highest level of cache, not the lower levels.
+sfence  Guarantees that all memory writes issued before the sfence instruction are completed before any writes after the sfence instruction.
+aesenc  Perform one round of an AES encryption flow
+aesenclast  Perform the last round of an AES encryption flow
+aesdec  Perform one round of an AES decryption flow
+aesdeclast  Perform the last round of an AES decryption flow
+aeskeygenassist Assist in AES round key generation
+aesimc  Assist in AES Inverse Mix Columns
+aam Divide AL by imm8, put the quotient in AH, and the remainder in AL
+aad Multipy AL with imm8, put the result in AH, and AL
+salc  Set AL depending on the value of the Carry Flag (a&nbsp;1-byte alternative of SBB&nbsp;AL,&nbsp;AL)
+ud1 Intentionally undefined instruction, but unlike UD2 this was not published
+icebp Single byte single-step exception
+loadall Loads All Registers from Memory Address 0x000800H
+loadalld  Load all Registers from Memory Address ES:EDI
+vfmaddpd  Fused Multiply-Add of Packed Double-Precision Floating-Point Values
+vfmaddps  Fused Multiply-Add of Packed Single-Precision Floating-Point Values
+vfmaddsd  Fused Multiply-Add of Scalar Double-Precision Floating-Point Values
+vfmaddss  Fused Multiply-Add of Scalar Single-Precision Floating-Point Values
+vfmaddsubpd Fused Multiply-Alternating Add/Subtract of Packed Double-Precision Floating-Point Values
+vfmaddsubps Fused Multiply-Alternating Add/Subtract of Packed Single-Precision Floating-Point Values
+vfmsubaddpd Fused Multiply-Alternating Subtract/Add of Packed Double-Precision Floating-Point Values
+vfmsubaddps Fused Multiply-Alternating Subtract/Add of Packed Single-Precision Floating-Point Values
+vfmsubpd  Fused Multiply-Subtract of Packed Double-Precision Floating-Point Values
+vfmsubps  Fused Multiply-Subtract of Packed Single-Precision Floating-Point Values
+vfmsubsd  Fused Multiply-Subtract of Scalar Double-Precision Floating-Point Values
+vfmsubss  Fused Multiply-Subtract of Scalar Single-Precision Floating-Point Values
+vfnmaddpd Fused Negative Multiply-Add of Packed Double-Precision Floating-Point Values
+vfnmaddps Fused Negative Multiply-Add of Packed Single-Precision Floating-Point Values
+vfnmaddsd Fused Negative Multiply-Add of Scalar Double-Precision Floating-Point Values
+vfnmaddss Fused Negative Multiply-Add of Scalar Single-Precision Floating-Point Values
+vfnmsubpd Fused Negative Multiply-Subtract of Packed Double-Precision Floating-Point Values
+vfnmsubps Fused Negative Multiply-Subtract of Packed Single-Precision Floating-Point Values
+vfnmsubsd Fused Negative Multiply-Subtract of Scalar Double-Precision Floating-Point Values
+vfnmsubss Fused Negative Multiply-Subtract of Scalar Single-Precision Floating-Point Values

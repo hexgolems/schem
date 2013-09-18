@@ -42,7 +42,7 @@ module Configer
     # option are typechecked. If the class Responds to .to_config_s and
     # .from_config_s this class is serialized in the config file.
     def self.value(params, &block)
-
+      @root ||= nil
       @root = @curr = Configer::Map.new({ name: 'root' }, self) unless @root
 
       if !block
@@ -90,7 +90,7 @@ module Configer
       string = self.read_config_file()
       return unless string
       struct = JSON.parse(string)
-      autowrite, @auto_write = @auto_write, false # deactivate autowrite_while loading
+      auto_write, @auto_write = @auto_write, false # deactivate autowrite_while loading
       @root.from_hash(struct)
       @auto_write = auto_write
     end

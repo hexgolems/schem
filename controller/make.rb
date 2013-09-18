@@ -7,6 +7,7 @@ def shell(cmd)
 end
 
 def on_watch(&block)
+  block.call()
   puts "watching for changes"
   loop do
     shell("inotifywait --exclude '\..*\.sw[px]*$|4913|~$' -e create -e delete -e modify -r lib/ spec/ > /dev/null 2>/dev/null")
@@ -16,8 +17,9 @@ def on_watch(&block)
 end
 
 def test
-  shell('rspec -r ./spec/spec_helper.rb --color')
-  shell('rubocop lib/**/*.rb spec/**/*.rb')
+# shell('rspec -r ./spec/spec_helper.rb --color spec/plugin_manager_spec.rb')
+ shell('rspec -r ./spec/spec_helper.rb --color spec/**/*.rb')
+# shell('rubocop lib/**/*.rb spec/**/*.rb')
 end
 
 def doc
@@ -33,8 +35,8 @@ def run
     on_watch do
       puts "[RERUNNING TOOLS]".center(80,"=")
       test
-      shell("ctags spec/**/*.rb lib/**/*.rb > /dev/null")
-      doc
+#     shell("ctags spec/**/*.rb lib/**/*.rb > /dev/null")
+#     doc
       puts "[DONE]".center(80,"=")
     end
   end
@@ -63,20 +65,27 @@ end
 
 def project_dependencies
   system('gem install whittle')
-  system('gem install celluloid')
   system('gem install redis')
   system('gem install reel')
-  system('gem install celluloid-redis')
   system('gem install pry')
+  system('gem install pry-rescue')
   system('gem install pry-debugger')
   system('sudo apt-get install redis-server')
   system('sudo apt-get install coffeescript')
+  system('sudo apt-get install gdbserver')
+  system('sudo apt-get install gdb')
+  system('sudo apt-get install mercurial')
+  system('sudo apt-get install git')
+  system('cd ..; mkdir dependencies')
+  system('cd ../dependencies; git clone https://github.com/meh/ruby-thread.git thread')
+  system('cd ../dependencies; git clone https://github.com/ranmrdrakono/gdb-mi-parser')
+  system('cd ../dependencies; hg clone https://code.google.com/p/metasm/')
 end
 
 
+setup if args.include? 'setup'
 test if args.include? 'test'
 doc  if args.include? 'doc'
 show if args.include? 'show'
 run  if args.include? 'run'
-setup if args.include? 'setup'
 

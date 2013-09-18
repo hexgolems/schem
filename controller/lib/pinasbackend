@@ -1,0 +1,14 @@
+Docu here: http://software.intel.com/sites/landingpage/pintool/docs/58423/Pin/html/index.html#APPDEBUG_LINUX
+
+COMPILE:
+cd ~/pint/pin/source/tools/ManualExamples/
+g++ -DBIGARRAY_MULTIPLIER=1 -DUSING_XED -Wall -Werror -Wno-unknown-pragmas -fno-stack-protector -DTARGET_IA32E -DHOST_IA32E -fPIC -DTARGET_LINUX -I../InstLib -I../../../source/include/pin -I../../../source/include/pin/gen -I../../../extras/components/include -I../../../extras/xed2-intel64/include -O3 -fomit-frame-pointer -fno-strict-aliasing   -c -o obj-intel64/gdb.o gdb.cpp; g++ -shared -Wl,--hash-style=sysv -Wl,-Bsymbolic -Wl,--version-script=../../../source/include/pin/pintool.ver    -o obj-intel64/gdb.so obj-intel64/gdb.o  -L../../../intel64/lib -L../../../intel64/lib-ext -L../../../extras/xed2-intel64/lib -lpin -lxed -ldwarf -lelf -ldl
+
+RUN
+1. open terminal and run:
+cd pint
+./pin/pin -injection child -appdebug -t ~/pint/pin/source/tools/ManualExamples/obj-intel64/gdb.so  -- /home/leex/gsoc/controller/run/debugee_with_debug_info
+2. open 2. terminal and run
+gdb debugee_with_debug_info
+target remote :....
+

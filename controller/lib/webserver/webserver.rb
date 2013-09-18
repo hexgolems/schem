@@ -1,5 +1,7 @@
 # encoding: utf-8
-require 'reel'
+silence_warnings do
+  require 'reel'
+end
 
 module Schem
   class WebServer < Reel::Server

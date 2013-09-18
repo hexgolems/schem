@@ -1,0 +1,15 @@
+1: Add stack frames to stack view
+2: Add function Arguments to stack view
+3: Add memory editing to mem view
+
+5: Test Self modifying code
+6: Add assemble here function
+7: Add Jump paths
+8: Add Keybord shortcuts to CPU
+9: Add Keybord shortcuts to Stack
+10: Add Keybord shortcuts to Registers
+11: Add KEybord shortcuts to Mem
+12: Remove coupeling to Metasm
+13: Document BIT maps
+14: Add plugin scrips
+
