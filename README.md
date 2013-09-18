@@ -3,7 +3,7 @@ SchemDBG
 
 SchemDBG is a backend agnostic debugger frontend that focuses on debugging
 binaries without access to the source code. 
-[http://hexgolems.github.io/schem/screenshots/v0.2/Schem_v0.2.png](SchemDBG)
+![SchemDBG](http://hexgolems.github.io/schem/screenshots/v0.2/Schem_v0.2.png)
 
 SchemDBG development started as a Google Summer of Code 2013 project. The
 project idea grew from the frustration with reversing in Linux environments (e.G. no
@@ -117,7 +117,7 @@ were identified by the disassembler are colored in such a way that it is easy
 to see where a basic block begins and ends.
 For disassembly, the controller generates a static mapping that contains the type
 information of any section in the binary. To do so the binary is disassembled
-with the [https://github.com/jjyg/metasm](Metasm) library. This type
+with the [Metasm](https://github.com/jjyg/metasm) library. This type
 information can be updated at run time to handle self modifying code (untested
 TODO issue). Not yet implemented is the ability to patch the code at run time
 with new assembly (TODO issue) and display jump paths (TODO issue).
