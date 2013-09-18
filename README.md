@@ -2,7 +2,8 @@ SchemDBG
 ========
 
 SchemDBG is a backend agnostic debugger frontend that focuses on debugging
-binaries without access to the source code. 
+binaries without access to the source code.
+
 ![SchemDBG](http://hexgolems.github.io/schem/screenshots/v0.2/Schem_v0.2.png)
 
 SchemDBG development started as a Google Summer of Code 2013 project. The
@@ -90,15 +91,18 @@ information such as "where was this memory allocated". Additionally, the user
 can add type information to any part of the memory. While there is a POC
 implementation that can be used to increment 1/2/4/8 byte integers, there is no
 proper way to modify memory in meaningful ways (TODO issue)
-[http://hexgolems.github.io/schem/gifs/v0.2/memtypes.gif](Changing types in memory view)
+
+![Changing types in memory view](http://hexgolems.github.io/schem/gifs/v0.2/memtypes.gif)
 
 Register view
 --------------
 Registers can contain sub-registers which will be displayed in a tree like
 structure. Special registers will currently only be displayed without
 proper formatting and with no ability to edit them (TODO issue).
-[http://hexgolems.github.io/schem/gifs/v0.2/register.gif](Editing Regsiters)
-[http://hexgolems.github.io/schem/gifs/v0.2/regtoggle.gif](Taking a jump by changing flags)
+
+![Editing Regsiters](http://hexgolems.github.io/schem/gifs/v0.2/register.gif)
+
+![Taking a jump by changing flags](http://hexgolems.github.io/schem/gifs/v0.2/regtoggle.gif)
 
 Stack view
 -----------
@@ -123,15 +127,19 @@ TODO issue). Not yet implemented is the ability to patch the code at run time
 with new assembly (TODO issue) and display jump paths (TODO issue).
 Additionally, currently addresses are always displayed as addresses,
 but in the future labels will be used, if they are available.
-[http://hexgolems.github.io/schem/gifs/v0.2/breakpoint.gif](Adding and deleting breakpoints)
-[http://hexgolems.github.io/schem/gifs/v0.2/enterleave.gif](Entering and leaving functions)
-[http://hexgolems.github.io/schem/gifs/v0.2/enterleave.gif](Goto label and adding a new label)
+
+![Adding and deleting breakpoints] (http://hexgolems.github.io/schem/gifs/v0.2/breakpoint.gif)
+
+![Entering and leaving functions](http://hexgolems.github.io/schem/gifs/v0.2/enterleave.gif)
+
+![Goto label and adding a new label](http://hexgolems.github.io/schem/gifs/v0.2/label.gif)
 
 Expression View
 ----------------
 The expression view allows the user to evaluate given ruby snippet on every
 stop to supply her/him with up-to-date information whenever the debugger stops.
-[http://hexgolems.github.io/schem/gifs/v0.2/watchexp.gif](Adding a watch expression)
+
+![Adding a watch expression] (http://hexgolems.github.io/schem/gifs/v0.2/watchexp.gif)
 
 Disassembly
 ------------
