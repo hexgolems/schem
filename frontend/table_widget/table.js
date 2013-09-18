@@ -33,7 +33,7 @@ AddressedTable = (function(_super) {
     AddressedTable.__super__.constructor.call(this, "cpuview");
     this.cols = {
       address: 0,
-      instr: 1
+      inst: 1
     };
     this.make_table(100, 2);
   }
@@ -163,10 +163,7 @@ AddressedTable = (function(_super) {
     return $(this.div).bind("keydown", function(e) {
       console.log("key", e.keyCode, e.which, 'G'.charCodeAt(0));
       if ((e.keyCode || e.which) === 'G'.charCodeAt(0)) {
-				addr = prompt("Address", 0x400020);
-				console.log(addr);
-				if(addr)
-					return _this.goto_addr(addr);
+        return _this.goto_addr(prompt("Address", 0x400020));
       }
     });
   };

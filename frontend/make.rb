@@ -11,7 +11,7 @@ def project_dependies
 end
 
 def run
-  system('coffee -w -c -b sockets.cs struct_widget/struct.cs table_widget/table.cs cmd_widget/cmd.cs')
+  system('coffee -w -c -b sockets.cs buttons_widget/buttons.cs cmd_widget/cmd.cs dialog_plugin/dialog.cs jquery-ui/development-bundle/docs lane_widget/lane.cs mem_widget/mem.cs sockets.cs struct_widget/struct.cs table_widget/table.cs')
 end
 
 run  if args.include? 'run'
