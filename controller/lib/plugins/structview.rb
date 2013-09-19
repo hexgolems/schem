@@ -44,7 +44,7 @@ module Schem
     end
 
     def update!
-        @socket.write(JSON.dump(get_data()))
+        @socket.send(JSON.dump(get_data()))
     end
 
     def wait_for_updates_loop
@@ -54,36 +54,32 @@ module Schem
       end
     end
 
-    def wait_for_requests_loop
-      loop do
-        line = @socket.read()
-        begin
-          req = JSON.parse(line)
-          case req['type']
-          when "action" then
-            handle_context_action(req)
-          else raise "unknown request #{req.inspect}"
-          end
-        rescue => e
-          Schem::Log.error("plugins:structview:exception",Schem::Log.trace(e))
+    def request(line)
+      begin
+        req = JSON.parse(line)
+        case req['type']
+        when "action" then
+          handle_context_action(req)
+        else raise "unknown request #{req.inspect}"
         end
+      rescue => e
+        Schem::Log.error("plugins:structview:exception",Schem::Log.trace(e))
       end
     end
 
     def send_available_actions
       actions = self.class.actions.each_pair.map{|name, (_, icon)| { icon: icon, label: name } }
-      @socket.write(JSON.dump({type: 'actions', actions: actions}))
+      @socket.send(JSON.dump({type: 'actions', actions: actions}))
     end
 
     def web_run(socket)
       begin
       @socket = socket
+      @socket.onclose { puts "Connection closed" }
+      @socket.onmessage { |msg| request(msg) }
       assert { @socket != nil}
       send_available_actions
-      in_thread do
-        wait_for_updates_loop
-      end
-      wait_for_requests_loop
+      wait_for_updates_loop
       rescue => e
         Schem::Log.error("plugins:#{self.class.to_s.downcase}",Schem::Log.trace(e))
       end

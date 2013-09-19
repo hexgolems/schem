@@ -25,14 +25,12 @@ class DialogSpawnerPlugin < Schem::Plugin
       diag['id'] = get_id
       promise = Thread.promise
       @waiting[diag['id']] = promise
-      @socket.write(JSON.dump(diag))
+      @socket.send(JSON.dump(diag))
       return promise
     end
   end
 
-  def wait_for_values
-    loop do
-        line = @socket.read()
+  def request(line)
       begin
         json = JSON.parse(line)
         raise "expected an id in #{line.inspect}" unless json['id']
@@ -41,13 +39,13 @@ class DialogSpawnerPlugin < Schem::Plugin
       rescue
         Schem::Log.error("plugins:dialog:exception","in parsing #{line}\n#{Schem::Log.trace}")
       end
-    end
   end
 
   def web_run(socket)
     srv.dialog.register_spawner(self)
     @socket = socket
-    wait_for_values
+    @socket.onclose { puts "Connection closed" }
+    @socket.onmessage { |msg| request(msg) }
   end
 
   def stop
