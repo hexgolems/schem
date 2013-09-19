@@ -132,9 +132,11 @@ Additionally, currently addresses are always displayed as addresses,
 but in the future labels will be used, if they are available.
 
 Adding and deleting breakpoints
+
 ![Adding and deleting breakpoints](http://hexgolems.github.io/schem/gifs/v0.2/breakpoint.gif)
 
 Entering and leaving functions
+
 ![Entering and leaving functions](http://hexgolems.github.io/schem/gifs/v0.2/enterleave.gif)
 
 Goto label and adding a new label
@@ -146,6 +148,7 @@ The expression view allows the user to evaluate given ruby snippet on every
 stop to supply her/him with up-to-date information whenever the debugger stops.
 
 Adding a watch expression
+
 ![Adding a watch expression](http://hexgolems.github.io/schem/gifs/v0.2/watchexp.gif)
 
 Disassembly
