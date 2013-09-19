@@ -73,7 +73,7 @@ module Schem
           actions = lane.get_available_actions
           actions.map{|a| a && { icon: a[:icon], label: a[:label] } }
         end
-      @socket.write(JSON.dump({type: 'actions', actions: actions_per_lane}))
+      @socket.send (JSON.dump({type: 'actions', actions: actions_per_lane}))
     end
 
     def send_updated()
@@ -88,7 +88,7 @@ module Schem
           lanes: rendering,
           offset_data: {type: 'delta'}
         }
-        @socket.write(JSON.dump(res))
+        @socket.send(JSON.dump(res))
     end
 
     def handle_data_request(req)
@@ -102,7 +102,7 @@ module Schem
       lines = req['length'].to_i
       offset_data = req['offset_data'] #this field needs to be piped through into the response for the frontend
       data = get_data(addr, lines, lines_before, offset_data)
-      @socket.write(JSON.dump(data)) if data
+      @socket.send(JSON.dump(data)) if data
     end
 
     def goto(address, lines_before=0, origin = nil)
@@ -124,9 +124,7 @@ module Schem
       lane.perform_action(action,clicked,selected)
     end
 
-    def wait_for_requests_loop
-      loop do
-        line = @socket.read()
+    def request(line)
         begin
           req = JSON.parse(line)
           case req['type']
@@ -137,17 +135,15 @@ module Schem
         rescue => e
           Schem::Log.error("plugins:memview:exception",Schem::Log.trace(e))
         end
-      end
     end
 
     def web_run(socket)
       @socket = socket
       assert {@socket != nil}
+      @socket.onclose { puts "Connection closed" }
+      @socket.onmessage { |msg| request(msg) }
 
       send_available_actions
-      in_thread do
-        wait_for_requests_loop
-      end
 
       wait_for_updates_loop
     end

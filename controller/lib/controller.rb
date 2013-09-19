@@ -10,7 +10,7 @@ $VERBOSE = true
 require_relative './logger/logger.rb'
 require_relative './config.rb'
 require_relative './commandline_options.rb'
-require_relative './webserver/webserver.rb'
+require_relative './webserver/emserver.rb'
 require_relative './plugins/manager.rb'
 require_relative './services/manager.rb'
 
@@ -85,7 +85,7 @@ module Schem
       @debugger = spawn_debugger()
       @plugin_manager = load_plugins()
       @service_manager = load_services()
-      @webserver = spawn_web(@plugin_manager)
+      @webserver = spawn_web()
     end
 
     def test_write
@@ -125,9 +125,8 @@ module Schem
       end
     end
 
-    def spawn_web(plugin_manager)
-      server = Schem::WebServer.new()
-      server.plugin_manager = plugin_manager
+    def spawn_web()
+      server = Schem::WebServer.new(@plugin_manager)
       return server
     end
 

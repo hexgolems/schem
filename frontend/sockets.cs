@@ -7,7 +7,9 @@ class PluginAdapter
 
 	get_socket: () ->
 		console.log(document.URL)
-		@socket = new WebSocket("ws://#{window.location.host}/spawn_plugin/#{@name}")
+		loc = window.location
+		port = parseInt(loc.port)+1
+		@socket = new WebSocket("ws://#{loc.hostname}:#{port}/spawn_plugin/#{@name}")
 		@socket.onopen = () =>
 			@opened = true
 			this.handle_open()
