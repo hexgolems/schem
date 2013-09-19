@@ -1,3 +1,11 @@
+Contents
+========
+[SchemDBG](#schem)
+[Vision](#vision)
+[Features](#features)
+[Installation](#installation)
+
+<a name="schem"/>
 SchemDBG
 ========
 
@@ -11,16 +19,17 @@ project idea grew from the frustration with reversing in Linux environments (e.G
 proper binary-only-frontends for GDB). Currently, SchemDBG features a plain GDB
 server backend and a PIN based backend running on both 32 and 64 bit binaries
 in a Ubuntu host. SchemDBG hasn't been tested with PIN backend using on a
-Windows host but the PIN debug server works under windows.
+Windows host but the PIN debug server works under windows #17.
 
 The debugger uses a controller written in ruby and a web frontend written in
 coffee-script. Currently, the frontend will only work properly in Chromium and
 it is not planned to support other browsers.
 
-VISION
+<a name="vision"/>
+Vision
 ======
 
-A Debugger For Reversing
+A debugger for reversing
 ------------------------
 The debugger is not meant to be used to debug your own code where you have
 access to the source code. It is meant to be used for disassembling binaries.
@@ -30,7 +39,7 @@ there is very little help in understanding the behaviour in form of debug
 symbols. That's why SchemDBG will have to make the most out of the available
 information.
 
-Display As Much Information As Possible
+Display as much information as possible
 ---------------------------------------
 A debugger should focus on making as much information available to the user as
 possible at any point in time. Schem tries to achieve this in various ways. The most
@@ -46,7 +55,7 @@ One is able to create as many different views in any layout one wishes to
 using only a simple HTML file with stub divs. Many clients can connect to the
 same controller which trivially allows to have custom multi-monitor setups.
 
-Make The Tool backend Agnostic
+Make the tool backend agnostic
 ------------------------------
 There is a vast amount of different debuggers out there. SchemDBG tries to make
 it quite simple to implement custom backends for our frontend (and maybe even
@@ -57,7 +66,7 @@ read/write, step, break point, run, and a function that lists mapped memory
 ranges / loaded images. Currently, Schem has a gdbserver backend and a backend
 that connects to any PIN tool.
 
-Make Scripting Possible
+Make scripting possible
 -----------------------
 Since the entire controller is written in ruby, scripting the debugger is quite
 simple. SchemDBG offers high level APIs so that scripts will not
@@ -68,7 +77,7 @@ access to any aspect of the debugger. For the future it is planned to add
 another class of plugins which can be used to automatize may aspects of
 reversing (TODO Issue 14).
 
-Make Teamwork/Integration Possible
+Make teamwork/integration possible
 ----------------------
 Current tools make interacting with team members working on the same binary
 very complicated if not impossible. Schem will try to make sharing of any inferred
@@ -79,7 +88,7 @@ of a means of additional interaction. For example, in the future it should be
 possible to import type information, etc. from IDA.
 
 
-
+<a name="features"/>
 Features
 =========
 
@@ -102,9 +111,11 @@ structure. Special registers will currently only be displayed without
 proper formatting and with no ability to edit them (TODO issue).
 
 Editing regsiters
+
 ![Editing regsiters](http://hexgolems.github.io/schem/gifs/v0.2/register.gif)
 
 Taking a jump by changing flags
+
 ![Taking a jump by changing flags](http://hexgolems.github.io/schem/gifs/v0.2/regtoggle.gif)
 
 Stack view
@@ -132,12 +143,15 @@ Additionally, currently addresses are always displayed as addresses,
 but in the future labels will be used, if they are available.
 
 Adding and deleting breakpoints
+
 ![Adding and deleting breakpoints](http://hexgolems.github.io/schem/gifs/v0.2/breakpoint.gif)
 
 Entering and leaving functions
+
 ![Entering and leaving functions](http://hexgolems.github.io/schem/gifs/v0.2/enterleave.gif)
 
 Goto label and adding a new label
+
 ![Goto label and adding a new label](http://hexgolems.github.io/schem/gifs/v0.2/label.gif)
 
 Expression View
@@ -176,13 +190,21 @@ then provide the frontend with rendered HTML strings that are displayed as well
 as event handlers for context menu actions.
 
 
-Setup
-======
-1. check out github
-2. compile coffeescript
+<a name="installation"/>
+Installation
+============
+1. sudo apt-get install git
+2. git clone https://github.com/hexgolems/schem.git
 3. get ruby1.9.3
-4. install gems, gdbserver
-5. cd controller/lib
-6. run `ruby controller.rb -p ../run -b gdb`
-7. ???
-8. profit
+	either via [rvm](http://rvm.io) or do the following:
+	sudo apt-get install ruby1.9.1 ruby1.9.1-dev; #(yes, it installs ruby1.9.3 blame debian/ubuntu for that naming fuckup)
+4. cd schem/controller; ruby make.rb setup
+	if you are using ruby via rvm then you don't need root to install gems and please answer with "n" if you are asked whether you want to install with root
+	if you are using ruby from the debian/ubuntu sources then you need root to install the gems so please answer with "y"
+5. make sure all the gems installed correctly, if not figure out why and install them
+6. now we need to compile the frontend from coffescript to javascript
+	cd schem/frontend; ruby make.rb run
+7. cd schem/controller/lib; ruby controller.rb -p ../run -b gdb
+8. open chromium and visit 127.0.0.1:8000
+9. ???
+10. profit

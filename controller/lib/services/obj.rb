@@ -1,6 +1,7 @@
 # TODO document me
 
 require 'tempfile'
+require 'metasm'
 
 module Schem
 
@@ -105,7 +106,6 @@ module Schem
     def initialize(*args)
       super
       @images_by_id = {}
-      set_arch_specifics
     end
 
     def set_arch_specifics
@@ -120,6 +120,7 @@ module Schem
     def init_callback
       @redis = srv.redis.connection
       check_for_new_images()
+      set_arch_specifics
     end
 
     def get_images

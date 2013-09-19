@@ -66,7 +66,7 @@ def install(cmd)
 end
 
 def with_root?
-  puts "Would you like to install you gems with root? (Answer no if you use rvm or have another valid reason)"
+  puts "Would you like to install your gems with root? (Answer no if you use rvm or have another valid reason)"
   loop do
     print "Please answer with: [y/n] "
     answer = STDIN.gets.strip
@@ -83,23 +83,22 @@ end
 
 def setup
   with_root?
-  install('gem install rspec')
-  install('gem install yard')
-  install('gem install yard-rspec')
-  install('gem install simplecov')
-  install('gem install rubocop')
-  install('gem install wrong')
+  install('gem install --no-rdoc --no-ri rspec')
+  install('gem install --no-rdoc --no-ri yard')
+  install('gem install --no-rdoc --no-ri yard-rspec')
+  install('gem install --no-rdoc --no-ri simplecov')
+  install('gem install --no-rdoc --no-ri rubocop')
+  install('gem install --no-rdoc --no-ri wrong')
   install('sudo apt-get -y install inotify-tools')
   project_dependencies
 end
 
 def project_dependencies
-  install('gem install whittle')
-  install('gem install redis')
-  install('gem install reel')
-  install('gem install pry')
-  install('gem install pry-rescue')
-  install('gem install pry-debugger')
+  install('gem install --no-rdoc --no-ri redis')
+  install('gem install --no-rdoc --no-ri reel')
+  install('gem install --no-rdoc --no-ri pry')
+  install('gem install --no-rdoc --no-ri pry-rescue')
+  install('gem install --no-rdoc --no-ri pry-debugger')
   install('sudo apt-get -y install redis-server')
   install('sudo apt-get -y install coffeescript')
   install('sudo apt-get -y install gdbserver')
