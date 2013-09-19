@@ -102,6 +102,7 @@ implementation that can be used to increment 1/2/4/8 byte integers, there is no
 proper way to modify memory in meaningful ways (TODO issue)
 
 Changing types in memory view
+
 ![Changing types in memory view](http://hexgolems.github.io/schem/gifs/v0.2/memtypes.gif)
 
 Register view
@@ -160,6 +161,7 @@ The expression view allows the user to evaluate given ruby snippet on every
 stop to supply her/him with up-to-date information whenever the debugger stops.
 
 Adding a watch expression
+
 ![Adding a watch expression](http://hexgolems.github.io/schem/gifs/v0.2/watchexp.gif)
 
 Disassembly
