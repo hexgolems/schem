@@ -4,6 +4,7 @@ Contents
 + [Vision](#vision)
 + [Features](#features)
 + [Installation](#installation)
++ [Known Issues](#issues)
 + [Contributing](#contributing)
 
 <a name="schem"/>
@@ -205,6 +206,11 @@ Installation
 9. ???
 10. profit
 
+
+<a name="issues"/>
+Known Issues
+============
++ After installing the em-http-server gem via Ubuntu's gem version it can happen that the installed server.rb (located in /var/lib/gems/1.9.1/gems...) is only root readable. Fix that by chmod'ing the server.rb and it should work. This doesn't happen when using RVM...
 
 <a name="contributing"/>
 Contributing
