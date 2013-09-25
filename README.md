@@ -6,6 +6,7 @@ Contents
 + [Installation](#installation)
 + [Known Issues](#issues)
 + [Contributing](#contributing)
++ [Contact](#contact)
 
 <a name="schem"/>
 SchemDBG
@@ -196,8 +197,9 @@ Yes, it installs ruby1.9.3, blame debian/ubuntu for that naming fuckup.
 `cd schem/frontend; ruby make.rb run`
 7. `cd schem/controller/lib; ruby controller.rb -p ../run -b gdb`
 8. open chromium and visit 127.0.0.1:8000
-9. ???
-10. profit
+9. if you run into trouble join our IRC channel: Freenode/#hexgolems!
+10. ???
+11. profit
 
 
 <a name="issues"/>
@@ -215,3 +217,9 @@ Contributing
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+
+<a name="contact"/>
+Contact
+============
+Feel free to join our IRC channel Freenode/#hexgolems or send us an email: `ruby -e 'puts "hex@hex".gsub("hex","hexgolems")+".de"'`
