@@ -17,8 +17,7 @@ binaries without access to the source code.
 
 ![SchemDBG](http://hexgolems.github.io/schem/screenshots/v0.2/Schem_v0.2.png)
 
-SchemDBG development started as a Google Summer of Code 2013 project. The
-project idea grew from the frustration with reversing in Linux environments (e.G. no
+SchemDBG grew from the frustration with reversing in Linux environments (e.G. no
 proper binary-only-frontends for GDB). Currently, SchemDBG features a plain GDB
 server backend and a PIN based backend running on both 32 and 64 bit binaries
 in a Ubuntu host. SchemDBG hasn't been tested with PIN backend using on a
