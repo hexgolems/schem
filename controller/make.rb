@@ -91,6 +91,7 @@ def setup
   install('gem install --no-rdoc --no-ri wrong')
   install('sudo apt-get -y install inotify-tools')
   project_dependencies
+  build_tools
 end
 
 def project_dependencies
@@ -113,7 +114,14 @@ def project_dependencies
   install('cd ../dependencies; hg clone https://code.google.com/p/metasm/')
 end
 
+def build_tools
+  shell("gcc","run/debugee.c","-o","run/debugee")
+  shell("gcc","run/debugee.c","-g","-o","run/debugee_with_debug_info")
+  shell("gcc","run/gdbsspawner.c","-o","run/gdbspawner")
+end
 
+
+build_tools if args.include? 'build'
 setup if args.include? 'setup'
 test if args.include? 'test'
 doc  if args.include? 'doc'
