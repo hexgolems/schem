@@ -4,7 +4,9 @@ Contents
 + [Vision](#vision)
 + [Features](#features)
 + [Installation](#installation)
++ [Known Issues](#issues)
 + [Contributing](#contributing)
++ [Contact](#contact)
 
 <a name="schem"/>
 SchemDBG
@@ -15,8 +17,7 @@ binaries without access to the source code.
 
 ![SchemDBG](http://hexgolems.github.io/schem/screenshots/v0.2/Schem_v0.2.png)
 
-SchemDBG development started as a Google Summer of Code 2013 project. The
-project idea grew from the frustration with reversing in Linux environments (e.G. no
+SchemDBG grew from the frustration with reversing in Linux environments (e.G. no
 proper binary-only-frontends for GDB). Currently, SchemDBG features a plain GDB
 server backend and a PIN based backend running on both 32 and 64 bit binaries
 in a Ubuntu host. SchemDBG hasn't been tested with PIN backend using on a
@@ -76,7 +77,7 @@ or platform. Watch expressions are integrated into the frontend which can run
 ruby code on every stop. The debugger will spawn a ruby REPL (pry) which has full
 access to any aspect of the debugger. For the future it is planned to add
 another class of plugins which can be used to automatize may aspects of
-reversing (TODO Issue 14).
+reversing.
 
 Make teamwork/integration possible
 ----------------------
@@ -121,8 +122,7 @@ Stack view
 -----------
 The stack view is currently rather simple and will only display the WORDS above
 the stack pointer. In upcoming releases more information will be added to this
-such as displaying the stack frames and function arguments in the stack view
-(TODO issue)
+such as displaying the stack frames and function arguments in the stack view.
 
 Code view
 ----------
@@ -132,13 +132,7 @@ the memory view (after all they share most of their code) the CPU view displays
 additional data. Static strings are displayed as strings and basic blocks that
 were identified by the disassembler are colored in such a way that it is easy
 to see where a basic block begins and ends.
-For disassembly, the controller generates a static mapping that contains the type
-information of any section in the binary. To do so the binary is disassembled
-with the [Metasm](https://github.com/jjyg/metasm) library. This type
-information can be updated at run time to handle self modifying code (untested
-TODO issue). Not yet implemented is the ability to patch the code at run time
-with new assembly (TODO issue) and display jump paths (TODO issue).
-Additionally, currently addresses are always displayed as addresses,
+For disassembly, the controller generates a static mapping that contains the type information of any section in the binary. To do so the binary is disassembled with the [Metasm](https://github.com/jjyg/metasm) library. This type information can be updated at run time to handle self modifying code. Not yet implemented is the ability to patch the code at run time with new assembly and display jump paths. Additionally, currently addresses are always displayed as addresses,
 but in the future labels will be used, if they are available.
 
 Adding and deleting breakpoints <br>
@@ -169,7 +163,7 @@ such that different platforms can be used more easily (it would be relatively
 easy to add support for MIPS and PPC since Metasm support them out of the
 box). All disassembly information is stored in a per-section static type
 mapping. This mapping can be modified easily by the frontend or other tools but
-the format should be better documented (TODO issue 13).
+the format should be better documented.
 
 Controller
 -----------
@@ -189,22 +183,29 @@ as event handlers for context menu actions.
 <a name="installation"/>
 Installation
 ============
-1. sudo apt-get install git
-2. git clone https://github.com/hexgolems/schem.git
-3. get ruby1.9.3
-	either via [rvm](http://rvm.io) or do the following:
-	sudo apt-get install ruby1.9.1 ruby1.9.1-dev; #(yes, it installs ruby1.9.3 blame debian/ubuntu for that naming fuckup)
-4. cd schem/controller; ruby make.rb setup
-	if you are using ruby via rvm then you don't need root to install gems and please answer with "n" if you are asked whether you want to install with root
-	if you are using ruby from the debian/ubuntu sources then you need root to install the gems so please answer with "y"
-5. make sure all the gems installed correctly, if not figure out why and install them
-6. now we need to compile the frontend from coffescript to javascript
-	cd schem/frontend; ruby make.rb run
-7. cd schem/controller/lib; ruby controller.rb -p ../run -b gdb
+1. `sudo apt-get install git`
+2. `git clone https://github.com/hexgolems/schem.git`
+3. get ruby1.9.3 - either via [rvm](http://rvm.io) or do the following: <br>
+`sudo apt-get install ruby1.9.1 ruby1.9.1-dev g++`<br>
+Yes, it installs ruby1.9.3, blame debian/ubuntu for that naming fuckup.
+4. `cd schem/controller; ruby make.rb setup`<br>
+ + if you are using ruby via rvm then you don't need root to install gems and please answer with "n" if you are asked whether you want to install with root<br>
+ + if you are using ruby from the debian/ubuntu sources then you need root to install the gems so please answer with "y"
+5. make sure all the gems installed correctly, if not figure out why and install them (if you didn't use rvm, pleaes check the [known issues](#issues)!)
+6. now we need to compile the frontend from coffescript to javascript <br>
+`cd schem/frontend; ruby make.rb run`
+7. `cd schem/controller/lib; ruby controller.rb -p ../run -b gdb`
 8. open chromium and visit 127.0.0.1:8000
-9. ???
-10. profit
+9. if you run into trouble join our IRC channel: Freenode/#hexgolems!
+10. ???
+11. profit
 
+
+<a name="issues"/>
+Known Issues
+============
++ After installing the em-http-server gem via Ubuntu's gem version it can happen that the installed server.rb (located in /var/lib/gems/1.9.1/gems...) is only root readable. Fix that by chmod'ing the server.rb and it should work. This doesn't happen when using RVM...<br>
+```sudo chmod a+r /var/lib/gems/1.9.1/gems/em-http-server-0.1.6/lib/em-http-server/server.rb```
 
 <a name="contributing"/>
 Contributing
@@ -215,3 +216,9 @@ Contributing
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+
+<a name="contact"/>
+Contact
+============
+Feel free to join our IRC channel Freenode/#hexgolems or send us an email: `ruby -e 'puts "hex@hex".gsub("hex","hexgolems")+".de"'`

@@ -98,7 +98,7 @@ def project_dependencies
   install('gem install --no-rdoc --no-ri redis')
   install('gem install --no-rdoc --no-ri pry')
   install('gem install --no-rdoc --no-ri eventmachine')
-  install('gem install --no-rdoc --no-ri em-websockets')
+  install('gem install --no-rdoc --no-ri em-websocket')
   install('gem install --no-rdoc --no-ri em-http-server')
 # install('gem install --no-rdoc --no-ri pry-rescue')
   install('gem install --no-rdoc --no-ri pry-debugger')
