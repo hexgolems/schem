@@ -9,7 +9,7 @@ module Schem
     attr_assert :format, any_of(:pe, :elf)
     attr_assert :path, String
     attr_reader :name
-    attr_accessor :range, :srv, :redis
+    attr_accessor :range, :srv
     include MonitorMixin
 
     def initialize(id, range, srv)
@@ -32,7 +32,7 @@ module Schem
       known = true
       section_infos.each do |s|
         key = get_section_name(s)
-        value_under_key = @redis.get(key)
+        value_under_key = srv.db[key]
         return false unless value_under_key
         length = value_under_key.length
         known = false unless length == s[:length]
@@ -118,7 +118,6 @@ module Schem
     end
 
     def init_callback
-      @redis = srv.redis.connection
       check_for_new_images()
       set_arch_specifics
     end
@@ -154,7 +153,6 @@ module Schem
 
     def load_image(imgid, range)
       img = FileImage.new(imgid, range, srv)
-      img.redis = @redis
       @images_by_id[imgid] = img
       content = nil
       begin

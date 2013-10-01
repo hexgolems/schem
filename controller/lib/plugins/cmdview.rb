@@ -13,7 +13,6 @@ class CMDViewPlugin < Schem::Plugin
     begin
       req = JSON.parse(line)
       srv.dbg.send_cli_string(req["line"])
-      #@redis.publish("gdb_in",req["line"])
       send_message(">"+req["line"])
     rescue
       Schem::Log.error("plugins:cmd_view:exception","in parsing #{line}\n#{Schem::Log.trace}")
@@ -24,7 +23,6 @@ class CMDViewPlugin < Schem::Plugin
     @socket = socket
     @socket.onclose { puts "Connection closed" }
     @socket.onmessage { |msg| request(msg) }
-    @redis = redis_connection('gdb_cmds')
 
     handler = Schem::ThreadedEventHandler.new do |msg|
         self.send_message(msg.value.gsub('\n',''))

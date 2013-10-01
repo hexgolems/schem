@@ -29,13 +29,11 @@ module Schem
     def fill_bitmap(img, bit)
       img.with_dasm do |dasm|
         decoded = dasm.decoded
-        bit.caching_transaction do
-          decoded.each_value do |value|
-            next if value == true #because sometimes metasm thinks it should return {0 => true}
-            va = img.rva_to_va(value.address)
-            next unless bit.range.include? va
-            bit.set_type(va, :instruction, value.bin_length) unless bit.reused
-          end
+        decoded.each_value do |value|
+          next if value == true #because sometimes metasm thinks it should return {0 => true}
+          va = img.rva_to_va(value.address)
+          next unless bit.range.include? va
+          bit.set_type(va, :instruction, value.bin_length) unless bit.reused
         end
       end
       return true

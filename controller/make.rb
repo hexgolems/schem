@@ -2,8 +2,8 @@
 args = ARGV
 args = %w{make test doc show} if args==[]
 
-def shell(cmd)
-  system("zsh","-c",cmd)
+def shell(*cmd)
+  system("zsh","-c",cmd.join(" "))
 end
 
 def on_watch(&block)
@@ -117,9 +117,8 @@ end
 def build_tools
   shell("gcc","run/debugee.c","-o","run/debugee")
   shell("gcc","run/debugee.c","-g","-o","run/debugee_with_debug_info")
-  shell("gcc","run/gdbsspawner.c","-o","run/gdbspawner")
+  shell("gcc","run/gdbsspawner.c","-o","run/gdbsspawner")
 end
-
 
 build_tools if args.include? 'build'
 setup if args.include? 'setup'

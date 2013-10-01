@@ -18,10 +18,5 @@ class DbgConfig < Configer::Template
     value name: 'interface', type: String, default: "127.0.0.1", docu: 'the interface on which the webserver listens for the interface'
   end
 
-  value name: 'redis' do
-    value name: 'sock_path', type: String, default: 'sockets', docu: 'path to the folder with the unix socket for redis'
-    value name: 'log_path', type: String, default: 'log', docu: 'path to the folder with the redis log files'
-    value name: 'config_path', type: String, default: 'config', docu: 'path to the folder with the redis config files'
-  end
 end
 

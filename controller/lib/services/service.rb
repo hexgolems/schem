@@ -13,7 +13,6 @@ class BaseService
     @published_values = {}
     @values = {}
     @controller = controller
-    @redis = @controller.new_redis_connection
   end
 
   def srv

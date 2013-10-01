@@ -6,7 +6,6 @@ silence_warnings do
   require 'pp'
   require 'socket'
   require 'monitor'
-  require 'redis'
 end
 
 

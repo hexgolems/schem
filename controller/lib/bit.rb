@@ -60,25 +60,24 @@ module Schem
   # Bitmap for storing and accessing inferred types
   class TypeInformationBitmap
 
-    attr_reader :range, :length, :name, :redis, :reused
+    attr_reader :range, :length, :name, :reused
 
     def initialize(name, img, range, srv)
       @srv = srv
-      @redis = @srv.redis.connection
       @name = name
       @length = range.size
       @range = range
       @reused = true
-      previous_content = @redis.get(@name)
+      previous_content = srv.db[@name]
       if !previous_content || previous_content.length != @length
         @reused = false
-        @redis.set(@name, "\0" * @length)
+        srv.db[@name] = "\0" * @length
       end
     end
 
 
     def inspect
-      return '<class: ' + self.class.to_s + ', name: ' + @name.to_s + ', length: ' + @length.to_s + ' , range:' + @range.min.to_s + '..' + @range.max.to_s + ', redis: ' + @redis.inspect + ' >'
+      return '<class: ' + self.class.to_s + ', name: ' + @name.to_s + ', length: ' + @length.to_s + ' , range:' + @range.min.to_s + '..' + @range.max.to_s + ' >'
     end
 
     FROM_TYPES = {
@@ -112,7 +111,7 @@ module Schem
 
     def to_rva(address)
       if !@range.include?(address)
-      raise "address #{address.to_s 16} not in range #{@range.hex_inspect}" 
+      raise "address #{address.to_s 16} not in range #{@range.hex_inspect}"
       end
       return address - @range.min
     end
@@ -136,30 +135,22 @@ module Schem
 
       range_rva = (to_rva(range.min)..to_rva(range.max))
 
-      return overflow_bottom+redis_get_range(range_rva)+overflow_top
+      return overflow_bottom+bit_get_range(range_rva)+overflow_top
     end
 
-    def redis_get_range(rva_range)
-      if @cache_string
-        return @cache_string[rva_range]
-      else
-        return @redis.getrange(@name,rva_range.min,rva_range.max)
-      end
+    def bit_get_range(rva_range)
+        return @srv.db[@name][rva_range.min..rva_range.max]
     end
 
-    def redis_set_range(rva,string)
-      if @cache_string
-        @cache_string[(rva...rva+string.length)] = string
-      else
-        @redis.setrange @name, rva, string
-      end
+    def bit_set_range(rva,string)
+      @srv.db[@name][rva...rva+string.length] = string
       return string
     end
 
     def set_type_string(address, string)
       range = (address...(address+string.length))
       raise "invalid range" unless @range.include?(range.min) && @range.include?(range.max)
-      redis_set_range to_rva(address), string
+      bit_set_range to_rva(address), string
     end
 
     def get_byte_types(range)
@@ -201,14 +192,6 @@ module Schem
       types = get_expanded_byte_types(range)
       range = types.first.address..types.last.address
       set_type_string(range.min, type_string(:undefined)*range.size)
-    end
-
-    def caching_transaction(&block)
-      @cache_string =@redis.get(@name)
-      block.call
-      @redis.set(@name,@cache_string)
-    ensure
-      @cache_string = nil
     end
 
     def types(range)

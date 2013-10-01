@@ -2,7 +2,6 @@
 silence_warnings do
   require 'pp'
   require 'socket'
-  require 'redis'
   require 'thread/delay'
   require 'thread/channel'
   require 'set'
@@ -27,7 +26,7 @@ module Schem
 
     # TODO make this modular
 
-    attr_accessor :controller, :redis, :debugger, :goto_stack
+    attr_accessor :controller, :debugger, :goto_stack
 
     def srv
       @controller.service_manager.service_finder
@@ -39,7 +38,6 @@ module Schem
       # TODO test this
       @controller = ctrl
       @manager = mgr
-      @redis_connections = {}
       @threads = Set.new
       @update_channel = ::Thread.channel
       @watching = nil
@@ -151,22 +149,10 @@ module Schem
       begin
         stop if respond_to? :stop
         @manager.remove_instance(self)
-        @redis_connections.each_value do |redis|
-          redis.quit rescue nil # TODO find out why this raises exceptions
-        end
         @threads.each{ |t| t.raise(PluginShouldStop) }
       rescue
         Log.error("plugins:closed:execption",Log.trace)
       end
-    end
-
-    # This function will create a new Redis connection for the plugin to use.
-    # The connections will be closed on terination by the plugin, so no need to do it yourself
-    def redis_connection(name)
-        return @redis_connections[name] if @redis_connections.include? name
-        res = @controller.new_redis_connection
-        @redis_connections[name] = res
-        return res
     end
 
   end

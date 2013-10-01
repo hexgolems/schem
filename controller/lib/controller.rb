@@ -3,7 +3,6 @@ require_relative './dependencies.rb'
 require_relative './include.rb'
 silence_warnings do
   require 'pry'
-  require 'redis'
 end
 
 $VERBOSE = true
@@ -61,10 +60,6 @@ module Schem
       Schem.init_logger()
       spawn
 
-      test_write()
-      @redis.save()
-      @meh = 0
-
       at_exit do
         stop()
       end
@@ -81,38 +76,10 @@ module Schem
       # @path_to_exe = File.expand_path('/bin/ls')
       @path_to_exe = File.expand_path('../run/debugee_with_debug_info')
 #@path_to_exe = File.expand_path('/home/leex/io')
-      @redis_pipe, @redis = spawn_redis()
       @debugger = spawn_debugger()
       @plugin_manager = load_plugins()
       @service_manager = load_services()
       @webserver = spawn_web()
-    end
-
-    def test_write
-      @redis['foo'] = 'bar'
-    end
-
-    def get_redis_config
-      version = `redis-server -v`
-      case version
-      when /2.2.12/ then return 'redis.2.2.12.conf'
-      when /2.6.7/ then return 'redis.2.6.7.conf'
-      end
-      return nil
-    end
-
-    def new_redis_connection
-        path = File.expand_path(File.join(DbgConfig.redis.sock_path , 'redis.sock'))
-        return Redis.new( path: path )
-    end
-
-    def spawn_redis
-      version_config = get_redis_config
-      raise "unsuported version #{`redis-server -v`}" unless version_config
-      path = File.expand_path(File.join(DbgConfig.redis.config_path, version_config))
-      pipe = IO.popen("redis-server #{path}")
-      redis = new_redis_connection
-      return pipe, redis
     end
 
     def spawn_debugger
@@ -148,21 +115,12 @@ module Schem
 
     def stop
       shutdown_plugins()
-      shutdown_redis()
       shutdown_debugger()
       exit
     end
 
     def shutdown_plugins
       @plugin_manager.shutdown()
-    end
-
-    def shutdown_redis
-# @redis.save
-      @redis.shutdown
-#     Process.kill('TERM', @redis_pipe.pid)
-#     Process.wait(@redis_pipe.pid)
-#     @redis_pipe.close
     end
 
     def shutdown_debugger

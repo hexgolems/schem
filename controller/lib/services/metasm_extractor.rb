@@ -16,7 +16,6 @@ module Schem
     end
 
     def init_callback
-      @redis = srv.redis.connection
     end
 
     def get_tags_name(img)
@@ -24,13 +23,12 @@ module Schem
     end
 
     def get_cached_tags(img)
-      value = @redis.get(get_tags_name(img))
-      return Marshal.load(value) if value
-      return nil
+      value = srv.db[get_tags_name(img)]
+      return value
     end
 
     def store_cached_tags(img,tags)
-      @redis.set(get_tags_name(img), Marshal.dump(tags))
+      srv.db[get_tags_name(img)] = tags
     end
 
     def extract(image_obj)
