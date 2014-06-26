@@ -3,7 +3,7 @@ args = ARGV
 args = %w{make test doc show} if args==[]
 
 def shell(*cmd)
-  system("zsh","-c",cmd.join(" "))
+  system("sh","-c",cmd.join(" "))
 end
 
 def on_watch(&block)
