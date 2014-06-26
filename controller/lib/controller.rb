@@ -73,9 +73,7 @@ module Schem
 # rubocop:enable MethodLength
 
     def spawn
-      # @path_to_exe = File.expand_path('/bin/ls')
       @path_to_exe = File.expand_path('../run/debugee_with_debug_info')
-#@path_to_exe = File.expand_path('/home/leex/io')
       @debugger = spawn_debugger()
       @plugin_manager = load_plugins()
       @service_manager = load_services()

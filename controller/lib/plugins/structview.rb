@@ -38,6 +38,7 @@ module Schem
     end
 
     def handle_context_action(req)
+      
       name = req['name']
       action = req['action']
       perform_action(action, name)

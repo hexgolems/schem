@@ -417,7 +417,6 @@ module Schem
     # @return
     # raise
     def internal_on_execute(&callback)
-        c = caller
         binding.dbg unless callback
         @on_execute_callbacks.add callback
     end

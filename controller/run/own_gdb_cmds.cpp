@@ -146,6 +146,7 @@ int main(int argc, char *argv[])
  *
  * Returns: TRUE if we recognize this extended command.
  */
+
 static BOOL DebugInterpreter(THREADID tid, CONTEXT *ctxt, const string &cmd, string *result, VOID *)
 {
     TINFO_MAP::iterator it = ThreadInfos.find(tid);

@@ -83,7 +83,8 @@ end
 
 class Binding
   def dbg
-    in_pry_mutex{pry}
+    puts "spawning pry1"
+    in_pry_mutex{puts "spawning pry";pry}
   end
 end
 

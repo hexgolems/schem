@@ -193,7 +193,7 @@ Yes, it installs ruby1.9.3, blame debian/ubuntu for that naming fuckup.
  + if you are using ruby from the debian/ubuntu sources then you need root to install the gems so please answer with "y"
 5. make sure all the gems installed correctly, if not figure out why and install them (if you didn't use rvm, pleaes check the [known issues](#issues)!)
 6. now we need to compile the frontend from coffescript to javascript <br>
-`cd schem/frontend; ruby make.rb run`
+`cd schem/frontend; ruby make.rb build`
 7. `cd schem/controller/lib; ruby controller.rb -p ../run -b gdb`
 8. open chromium and visit 127.0.0.1:8000
 9. if you run into trouble join our IRC channel: Freenode/#hexgolems!
