@@ -9,4 +9,3 @@ class Time
     Time.parse(val)
   end
 end
-

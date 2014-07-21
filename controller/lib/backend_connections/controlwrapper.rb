@@ -3,7 +3,6 @@ require_relative './../include.rb'
 
 module Schem
   module ControlWrapper
-
     def init_control_wrapper
     end
 
@@ -22,24 +21,24 @@ module Schem
     def run
       internal_run
       @run_callbacks.each do |callback|
-        callback.call()
+        callback.call
       end
     end
 
     def quit
-      return internal_quit
+      internal_quit
     end
 
     def step_over
-      return internal_step_over
+      internal_step_over
     end
 
     def step_into
-      return internal_step_into
+      internal_step_into
     end
 
     def continue
-      return internal_continue
+      internal_continue
     end
   end
 end

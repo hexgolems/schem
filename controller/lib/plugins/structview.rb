@@ -3,15 +3,13 @@ require_relative './plugin.rb'
 require 'json'
 
 module Schem
-
   class StructViewPlugin < Plugin
-
     def self.action(name, icon = nil, &block)
       @actions ||= {}
       @actions[name] = [block, icon]
     end
 
-    def self.actions()
+    def self.actions
       @actions ||= {}
     end
 
@@ -19,7 +17,7 @@ module Schem
       @dependencies = args
     end
 
-    def self.dependencies()
+    def self.dependencies
       @dependencies ||= []
     end
 
@@ -29,23 +27,22 @@ module Schem
     end
 
     def wait
-      wait_for(*self.class.dependencies.map{ |name| srv.__send__(name) })
+      wait_for(*self.class.dependencies.map { |name| srv.__send__(name) })
     end
 
     def get_data
-      return { type: 'update', data: some_json_object }
+      { type: 'update', data: some_json_object }
       # => you should implement this
     end
 
     def handle_context_action(req)
-      
       name = req['name']
       action = req['action']
       perform_action(action, name)
     end
 
     def update!
-        @socket.send(JSON.dump(get_data()))
+      @socket.send(JSON.dump(get_data))
     end
 
     def wait_for_updates_loop
@@ -56,40 +53,34 @@ module Schem
     end
 
     def request(line)
-      begin
-        req = JSON.parse(line)
-        case req['type']
-        when "action" then
-          handle_context_action(req)
-        else raise "unknown request #{req.inspect}"
-        end
-      rescue => e
-        Schem::Log.error("plugins:structview:exception",Schem::Log.trace(e))
+      req = JSON.parse(line)
+      case req['type']
+      when 'action' then
+        handle_context_action(req)
+      else fail "unknown request #{req.inspect}"
       end
+    rescue => e
+      Schem::Log.error('plugins:structview:exception', Schem::Log.trace(e))
     end
 
     def send_available_actions
-      actions = self.class.actions.each_pair.map{|name, (_, icon)| { icon: icon, label: name } }
-      @socket.send(JSON.dump({type: 'actions', actions: actions}))
+      actions = self.class.actions.each_pair.map { |name, (_, icon)| { icon: icon, label: name } }
+      @socket.send(JSON.dump(type: 'actions', actions: actions))
     end
 
     def web_run(socket)
-      begin
       @socket = socket
-      @socket.onclose { puts "Connection closed" }
+      @socket.onclose { puts 'Connection closed' }
       @socket.onmessage { |msg| request(msg) }
-      assert { @socket != nil}
+      assert { !@socket.nil? }
       send_available_actions
       wait_for_updates_loop
       rescue => e
-        Schem::Log.error("plugins:#{self.class.to_s.downcase}",Schem::Log.trace(e))
-      end
+        Schem::Log.error("plugins:#{self.class.to_s.downcase}", Schem::Log.trace(e))
     end
 
     def stop
       @socket.close
     end
-
   end
-
 end

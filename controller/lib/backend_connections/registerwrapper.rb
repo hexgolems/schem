@@ -6,14 +6,17 @@ module Schem
   module RegisterWrapper
     def init_reg_wrapper
     end
+
     def registers
-      return internal_registers
+      internal_registers
     end
+
     def set_register(name, value)
-      return internal_set_register(name, value)
+      internal_set_register(name, value)
     end
-    def get_register(name)
-      return internal_get_registers
+
+    def get_register(_name)
+      internal_get_registers
     end
   end
 end

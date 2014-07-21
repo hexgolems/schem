@@ -2,13 +2,10 @@ require 'set'
 require 'monitor'
 
 module Schem
-
   class RangeTree
-
     CACHE_SIZE = 128
 
     class Node
-
       MAX_COLLAPSED_SUBTREE_SIZE = 128
 
       attr_accessor :position, :ranges, :left, :right, :collapsed_subtree,
@@ -32,12 +29,12 @@ module Schem
       end
 
       def insert_in_child(range)
-          next_node = next_child(range.max)
-          if next_node == nil
-            insert_as_collapsed_subtree(range)
-          else
-            next_node.insert(range)
-          end
+        next_node = next_child(range.max)
+        if next_node.nil?
+          insert_as_collapsed_subtree(range)
+        else
+          next_node.insert(range)
+        end
       end
 
       def insert_as_collapsed_subtree(range)
@@ -66,17 +63,17 @@ module Schem
         end
         next_node = next_child(point)
         return res unless next_node
-        return res + next_node.lookup_ranges(point)
+        res + next_node.lookup_ranges(point)
       end
 
       def next_child(point)
-        return point < @position ? @left : @right
+        point < @position ? @left : @right
       end
 
       def empty?
         return false if @ranges.size > 0
         return false if @collapsed_subtree.size > 0
-        return (!@left || @left.empty?) && (!@right || @right.empty?)
+        (!@left || @left.empty?) && (!@right || @right.empty?)
       end
 
       def remove_range(range)
@@ -87,7 +84,6 @@ module Schem
         @left = nil if @left && @left.empty?
         @right = nil if @right && @right.empty?
       end
-
     end
 
     # class RangeTree actually begins here
@@ -114,17 +110,16 @@ module Schem
       end
     end
 
-
     def lookup_cached(point)
       ranges = @cache[point]
       if ranges
         @cache.delete point
         @cache[point] = ranges
       end
-      return ranges
+      ranges
     end
 
-    def add_to_cache(point,ranges)
+    def add_to_cache(point, ranges)
       @cache[point] = ranges
       if @cache.size > CACHE_SIZE
         point_to_delete, _ = @cache.first
@@ -133,13 +128,13 @@ module Schem
     end
 
     def insert_in_cache(range)
-      @cache.each_pair do |point,ranges|
+      @cache.each_pair do |point, ranges|
         ranges << range if range.include? point
       end
     end
 
     def remove_from_cache(range)
-      @cache.each_pair do |point,ranges|
+      @cache.each_pair do |point, ranges|
         ranges.delete range if range.include? point
       end
     end
@@ -159,12 +154,12 @@ module Schem
       synchronize do
         lookup_ranges(point).each { |range| res += @values_by_ranges[range] }
       end
-      return res
+      res
     end
 
     def lookup_pairs(point)
       synchronize do
-        lookup_ranges(point).inject({}) do |h, range|
+        lookup_ranges(point).reduce({}) do |h, range|
           h[range] = @values_by_ranges[range]; h
         end
       end
@@ -186,7 +181,5 @@ module Schem
         @values_by_ranges.delete(range)
       end
     end
-
   end
-
 end

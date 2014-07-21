@@ -12,15 +12,14 @@ require_relative './manager.rb'
 require_relative '../services/manager.rb'
 
 module Schem
-
   class PluginShouldStop < Exception
   end
 
-# subclass this class to create your own plugin
+  # subclass this class to create your own plugin
   class Plugin
     class Thread
       def initialize
-        raise "please use #in_thread to create new threads in plugins"
+        fail 'please use #in_thread to create new threads in plugins'
       end
     end
 
@@ -44,13 +43,13 @@ module Schem
       @goto_stack = []
     end
 
-    def ensure_consistency(reason,&block)
+    def ensure_consistency(reason, &block)
       ::Thread.current[:is_inside_ensure_consistency] = true
       begin
         loop do
-          old_invalidation_counters = reason.services_watching.map{|service| service.invalidation_counter}
-          block.call()
-          new_invalidation_counters = reason.services_watching.map{|service| service.invalidation_counter}
+          old_invalidation_counters = reason.services_watching.map { |service| service.invalidation_counter }
+          block.call
+          new_invalidation_counters = reason.services_watching.map { |service| service.invalidation_counter }
           break if old_invalidation_counters == new_invalidation_counters
         end
       ensure
@@ -63,41 +62,41 @@ module Schem
         not_watching_anymore = @watching - services
         not_watching_anymore.each { |service| service.deregister_waiting(@update_channel) }
       end
-      services.each{|service| service.register_waiting(@update_channel) }
+      services.each { |service| service.register_waiting(@update_channel) }
       @watching = services
       reason = @update_channel.receive
       reason.services_watching = services
-      return reason
+      reason
     end
 
     # returns true if this plugin has an `auto_run` method
     def self.auto_run?
-      return self.method_defined? :auto_run
+      self.method_defined? :auto_run
     end
 
     # returns true if this plugin has a `web_run` method
     def self.web_run?
-      return self.method_defined? :web_run
+      self.method_defined? :web_run
     end
 
     # returns true if this plugin has a `manual_run.*` methods
     def self.manual_run?
-      return self.method_defined? :manual_run
+      self.method_defined? :manual_run
     end
 
-    #Creates a new thread that is associated with this plugin
-    #makes sure that all exceptions are cought nad logged properly
-    #if you want to use a thread in your plugin, make sure to use this functions
-    #This will also make sure that the thread will be killed with the plugin
-    def in_thread(task_desc = "in_thread",&block)
+    # Creates a new thread that is associated with this plugin
+    # makes sure that all exceptions are cought nad logged properly
+    # if you want to use a thread in your plugin, make sure to use this functions
+    # This will also make sure that the thread will be killed with the plugin
+    def in_thread(task_desc = 'in_thread', &block)
       t = ::Thread.new do
         if DbgConfig.controller.debug_with_pry
           Pry.rescue_in_pry do
-            block.call()
+            block.call
           end
         else
           begin
-            block.call()
+            block.call
           rescue PluginShouldStop
           rescue => e
             err = "Excpetion in #{task_desc}: #{Log.trace(e)}"
@@ -107,16 +106,16 @@ module Schem
         end
       end
       @threads.add t
-      return t
+      t
     end
 
-    #this function will perform a send to self but in a new thread
-    def async_send(method,*args, &block)
-      method_call = "async call to #{self.to_s}." #TODO WHY OH WHY
-      method_call += "#{method}(#{args.map(&:to_s).join(" , ")},"
+    # this function will perform a send to self but in a new thread
+    def async_send(method, *args, &block)
+      method_call = "async call to #{self}." # TODO WHY OH WHY
+      method_call += "#{method}(#{args.map(&:to_s).join(' , ')},"
       method_call += "  &#{block.inspect})"
       in_thread(method_call) do
-        self.send(method,*args,&block)
+        send(method, *args, &block)
       end
     end
 
@@ -130,14 +129,14 @@ module Schem
     # it will pass the given websocket to web_run
     # this method will be called upon a a websocket request by the frontend
     def async_web_run(socket)
-      async_send(:web_run,socket)
+      async_send(:web_run, socket)
     end
 
     # this method asnychroniusly calls manual_run
     # it will pass the given arguments to manual_run
     # this method must be called manualy (e.G. as an response to the user clicking something)
     def async_manual_run(*args)
-      async_send(:web_run,*args)
+      async_send(:web_run, *args)
     end
 
     # This function will call `self.stop` if the sub class defines this method upon
@@ -145,15 +144,14 @@ module Schem
     # all threads recieve a PluginShouldStop exception. They may handle this
     # exception themselfs if some cleanup is to be performec
     def shutdown
-      Log.info("plugins:closed","stoped #{self.class}")
+      Log.info('plugins:closed', "stoped #{self.class}")
       begin
         stop if respond_to? :stop
         @manager.remove_instance(self)
-        @threads.each{ |t| t.raise(PluginShouldStop) }
+        @threads.each { |t| t.raise(PluginShouldStop) }
       rescue
-        Log.error("plugins:closed:execption",Log.trace)
+        Log.error('plugins:closed:execption', Log.trace)
       end
     end
-
   end
 end

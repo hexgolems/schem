@@ -1,9 +1,7 @@
 # TODO document me
 module Schem
-
   # TODO document me
   class ImageSectionService < BaseService
-
     def initialize(*args)
       super
       @old_sections = nil
@@ -29,7 +27,7 @@ module Schem
       get_published_value(:img_sections).each do |sec|
         return sec if sec.from <= addr && addr <= sec.to
       end
-      return false
+      false
     end
 
     def get_image_sections(range)
@@ -44,18 +42,16 @@ module Schem
       intersections.each_index do |i|
         res << intersections[i]
         if i + 1 < intersections.length and ! (intersections[i][1].max + 1) == intersections[i + 1][1].min
-                res << [:invalid, ((intersections[i][1].max + 1)..(intersections[i + 1][1].min - 1))]
+          res << [:invalid, ((intersections[i][1].max + 1)..(intersections[i + 1][1].min - 1))]
         end
       end
       # add invalid regions at start and end if necessary
       res = [[:invalid, range]] if res.length == 0
       res = [[:invalid, range.min..(res.first[1].min - 1)]] + res if res.first[1].min > range.min
       res << [:invalid, (res.last[1].max + 1)..range.max] if res.last[1].max + 1 <= range.max
-      return res
+      res
     end
-
   end
 
   register_service(:img_sec, ImageSectionService)
-
 end

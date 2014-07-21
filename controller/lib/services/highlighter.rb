@@ -1,7 +1,5 @@
 module Schem
-
   class Highlighter < BaseService
-
     def initialize(*args)
       super
       @default_classes = {
@@ -15,38 +13,37 @@ module Schem
 
     def html(instr)
       tokens = tokenize(instr)
-      return tokens.map.with_index do |tok,i|
-        classes = get_classes(tok,i)
+      tokens.map.with_index do |tok, i|
+        classes = get_classes(tok, i)
         desc = get_description(tok) if i == 0
-        classes_string = if classes.length > 0 then "class='#{classes.join(" ")}' " else "" end
-        desc_string = if desc then "title='#{desc}' " else "" end
-        string = classes_string+desc_string
+        classes_string = if classes.length > 0 then "class='#{classes.join(' ')}' " else '' end
+        desc_string = if desc then "title='#{desc}' " else '' end
+        string = classes_string + desc_string
         if string.length > 0
           next "<span #{string}>#{tok}</span>"
         else
           next tok
         end
-      end.join("")
+      end.join('')
     end
 
-    def get_matching(classes,token)
-      classes.keys.select{|name| classes[name] =~ token }
+    def get_matching(classes, token)
+      classes.keys.select { |name| classes[name] =~ token }
     end
 
-    def get_classes(token,i)
-      arg_classes = get_matching(@arg_classes,token) if i >= 1
-      instr_classes = get_matching(@instr_classes,token) if i == 0
-      default_classes = get_matching(@default_classes,token)
-      return default_classes+(arg_classes||[])+(instr_classes||[])
+    def get_classes(token, i)
+      arg_classes = get_matching(@arg_classes, token) if i >= 1
+      instr_classes = get_matching(@instr_classes, token) if i == 0
+      default_classes = get_matching(@default_classes, token)
+      default_classes + (arg_classes || []) + (instr_classes || [])
     end
 
     def get_description(token)
-      srv.desc.instructions[token.downcase.gsub(" ","")]
+      srv.desc.instructions[token.downcase.gsub(' ', '')]
     end
   end
 
   class X68Highlighter < Highlighter
-
     def initialize(*args)
       super
       @arg_classes = {
@@ -99,6 +96,5 @@ module Schem
     end
   end
 
-register_service(:x86highlight, X68Highlighter)
+  register_service(:x86highlight, X68Highlighter)
 end
-

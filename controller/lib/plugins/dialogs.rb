@@ -16,7 +16,7 @@ class DialogSpawnerPlugin < Schem::Plugin
 
   def get_id
     synchronize do
-      return @id+=1
+      return @id += 1
     end
   end
 
@@ -31,20 +31,18 @@ class DialogSpawnerPlugin < Schem::Plugin
   end
 
   def request(line)
-      begin
-        json = JSON.parse(line)
-        raise "expected an id in #{line.inspect}" unless json['id']
-        @waiting[json['id']] << json
-        @waiting.delete json['id']
-      rescue
-        Schem::Log.error("plugins:dialog:exception","in parsing #{line}\n#{Schem::Log.trace}")
-      end
+    json = JSON.parse(line)
+    fail "expected an id in #{line.inspect}" unless json['id']
+    @waiting[json['id']] << json
+    @waiting.delete json['id']
+  rescue
+    Schem::Log.error('plugins:dialog:exception', "in parsing #{line}\n#{Schem::Log.trace}")
   end
 
   def web_run(socket)
     srv.dialog.register_spawner(self)
     @socket = socket
-    @socket.onclose { puts "Connection closed" }
+    @socket.onclose { puts 'Connection closed' }
     @socket.onmessage { |msg| request(msg) }
   end
 

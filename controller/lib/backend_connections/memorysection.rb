@@ -3,7 +3,6 @@ require_relative './../include.rb'
 
 module Schem
   class MemorySection
-
     attr_reader :from, :to, :offset, :length, :flags, :image, :object_file
 
     def initialize(from, to, length = :unkown, offset = :unkown, object_file = :unkown, flags = :unkown, image = :unkown)
@@ -17,12 +16,12 @@ module Schem
     end
 
     def intersection(rangeb)
-      res = ([from,rangeb.min].max .. [to,rangeb.max].min)
+      res = ([from, rangeb.min].max .. [to, rangeb.max].min)
       return nil if res.first > res.last
-      return res
+      res
     end
 
-    def == (other)
+    def ==(other)
       return false unless other.class == MemorySection
       return false if @from != other.from
       return false if @to != other.to
@@ -31,8 +30,7 @@ module Schem
       return false if @flags != other.flags
       return false if @image != other.image
       return false if @object_file != other.object_file
-      return true
+      true
     end
-
   end
 end

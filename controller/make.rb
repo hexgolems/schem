@@ -1,25 +1,25 @@
 # encoding: utf-8
 args = ARGV
-args = %w{make test doc show} if args==[]
+args = %w(make test doc show) if args == []
 
 def shell(*cmd)
-  system("sh","-c",cmd.join(" "))
+  system('sh', '-c', cmd.join(' '))
 end
 
 def on_watch(&block)
-  block.call()
-  puts "watching for changes"
+  block.call
+  puts 'watching for changes'
   loop do
     shell("inotifywait --exclude '\..*\.sw[px]*$|4913|~$' -e create -e delete -e modify -r lib/ spec/ > /dev/null 2>/dev/null")
-    block.call()
+    block.call
     sleep(0.3)
   end
 end
 
 def test
-# shell('rspec -r ./spec/spec_helper.rb --color spec/plugin_manager_spec.rb')
- shell('rspec -r ./spec/spec_helper.rb --color spec/**/*.rb')
-# shell('rubocop lib/**/*.rb spec/**/*.rb')
+  # shell('rspec -r ./spec/spec_helper.rb --color spec/plugin_manager_spec.rb')
+  shell('rspec -r ./spec/spec_helper.rb --color spec/**/*.rb')
+  # shell('rubocop lib/**/*.rb spec/**/*.rb')
 end
 
 def doc
@@ -33,18 +33,18 @@ end
 def run
   pid = fork do
     on_watch do
-      puts "[RERUNNING TOOLS]".center(80,"=")
+      puts '[RERUNNING TOOLS]'.center(80, '=')
       test
-#     shell("ctags spec/**/*.rb lib/**/*.rb > /dev/null")
-#     doc
-      puts "[DONE]".center(80,"=")
+      #     shell("ctags spec/**/*.rb lib/**/*.rb > /dev/null")
+      #     doc
+      puts '[DONE]'.center(80, '=')
     end
   end
   if pid > 0
-    Signal.trap("INT") do
-      puts "killing for sure"
+    Signal.trap('INT') do
+      puts 'killing for sure'
       gpid = Process.getpgid(0)
-      Process.kill("KILL",-gpid)
+      Process.kill('KILL', -gpid)
     end
     Process.waitpid(pid)
   else
@@ -53,7 +53,7 @@ def run
 end
 
 def install(cmd)
-    puts "Now running #{cmd}"
+  puts "Now running #{cmd}"
   if cmd =~ /\Agem install/
     if $with_root
       system("sudo #{cmd}")
@@ -66,15 +66,15 @@ def install(cmd)
 end
 
 def with_root?
-  puts "Would you like to install your gems with root? (Answer no if you use rvm or have another valid reason)"
+  puts 'Would you like to install your gems with root? (Answer no if you use rvm or have another valid reason)'
   loop do
-    print "Please answer with: [y/n] "
+    print 'Please answer with: [y/n] '
     answer = STDIN.gets.strip
-    if answer == "y"
+    if answer == 'y'
       $with_root = true
       break
     end
-    if answer == "n"
+    if answer == 'n'
       $with_root = false
       break
     end
@@ -100,7 +100,7 @@ def project_dependencies
   install('gem install --no-rdoc --no-ri eventmachine')
   install('gem install --no-rdoc --no-ri em-websocket')
   install('gem install --no-rdoc --no-ri em-http-server')
-# install('gem install --no-rdoc --no-ri pry-rescue')
+  # install('gem install --no-rdoc --no-ri pry-rescue')
   install('gem install --no-rdoc --no-ri pry-debugger')
   install('sudo apt-get -y install redis-server')
   install('sudo apt-get -y install coffeescript')
@@ -115,9 +115,9 @@ def project_dependencies
 end
 
 def build_tools
-  shell("gcc","run/debugee.c","-o","run/debugee")
-  shell("gcc","run/debugee.c","-g","-o","run/debugee_with_debug_info")
-  shell("gcc","run/gdbsspawner.c","-o","run/gdbsspawner")
+  shell('gcc', 'run/debugee.c', '-o', 'run/debugee')
+  shell('gcc', 'run/debugee.c', '-g', '-o', 'run/debugee_with_debug_info')
+  shell('gcc', 'run/gdbsspawner.c', '-o', 'run/gdbsspawner')
 end
 
 build_tools if args.include? 'build'
@@ -126,4 +126,3 @@ test if args.include? 'test'
 doc  if args.include? 'doc'
 show if args.include? 'show'
 run  if args.include? 'run'
-

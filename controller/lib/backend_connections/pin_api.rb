@@ -13,7 +13,6 @@ end
 
 module Schem
   module PinDebuggerApi
-
     include BreakpointWrapper
     include RegisterWrapper
     include ControlWrapper
@@ -22,7 +21,6 @@ module Schem
     include ImageSectionWrapper
 
     def init_dbg_api
-
       @on_stop_callbacks = Set.new
       @on_execute_callbacks = Set.new
       @on_quit_callbacks = Set.new
@@ -30,18 +28,18 @@ module Schem
       @shared_objects = []
 
       @event_handler = ThreadedEventHandler.new do |msg|
-          if msg.value["event"] == 'stopped'
-            if msg.value["info"]["reason"] =~ /exit/
-              @on_quit_callbacks.each{|cb| cb.call(msg.value["info"])}
-            else
-              @on_stop_callbacks.each{|cb| cb.call(msg.value["info"])}
-            end
-          elsif msg.value["event"] == 'running'
-              @on_execute_callbacks.each{|cb| cb.call(msg.value["info"])}
+        if msg.value['event'] == 'stopped'
+          if msg.value['info']['reason'] =~ /exit/
+            @on_quit_callbacks.each { |cb| cb.call(msg.value['info']) }
+          else
+            @on_stop_callbacks.each { |cb| cb.call(msg.value['info']) }
           end
+        elsif msg.value['event'] == 'running'
+          @on_execute_callbacks.each { |cb| cb.call(msg.value['info']) }
+        end
       end
 
-      @debugger.register_event_handler('exec',@event_handler)
+      @debugger.register_event_handler('exec', @event_handler)
 
       init_bp_wrapper
       init_reg_wrapper
@@ -52,12 +50,12 @@ module Schem
     end
 
     def internal_address_mapped?(address)
-      assert {address.is_a? Integer }
+      assert { address.is_a? Integer }
       sections = internal_mem_mappings
       sections.each do |section|
         return true if section.from <= address && address <= section.to
       end
-      return false
+      false
     end
 
     def internal_list_shared_objects
@@ -72,7 +70,6 @@ module Schem
         @shared_objects = shared_objects
         return shared_objects
       end
-
     end
 
     # creates a new breakpoint
@@ -90,7 +87,7 @@ module Schem
       res = internal_bp_create_helper(address, mode)
       return Breakpoint.new(:hardware, true, address, res['number']) if mode == 'hardware'
       return Breakpoint.new(:software, true, address, res['number']) if mode == 'software'
-      raise NotImplementedError.new("invalid breakpoint mode: #{mode}")
+      fail NotImplementedError.new("invalid breakpoint mode: #{mode}")
     end
 
     def internal_bp_create_helper(address, mode)
@@ -98,9 +95,9 @@ module Schem
         case mode.to_s
         when 'software' then res = @debugger.send_mi_string("-break-insert *#{address}")
         when 'hardware' then res = @debugger.send_mi_string("-break-insert -h *#{address}")
-        else raise NotImplementedError.new("invalid breakpoint mode: #{mode}")
+        else fail NotImplementedError.new("invalid breakpoint mode: #{mode}")
         end
-        assert('pin was unable to add a breakpoint'){ res.content_type == 'done' }
+        assert('pin was unable to add a breakpoint') { res.content_type == 'done' }
         return res.value['bkpt']
       end
     end
@@ -121,21 +118,21 @@ module Schem
       # is_mapped = internal_address_mapped?(address)
       # assert('unable to set watchpoint at unmapped address '){ is_mapped }
       mode = mode.to_s
-      short_form = {'regular' => :wp_regular, 'read' => :wp_read, 'access' => :wp_access}
-      assert('invalid watchpoint mode'){ short_form.include?(mode) }
+      short_form = { 'regular' => :wp_regular, 'read' => :wp_read, 'access' => :wp_access }
+      assert('invalid watchpoint mode') { short_form.include?(mode) }
       res = internal_wp_create_helper(address, mode.to_s)
-      return Breakpoint.new(short_form[mode], true, address, res['number'])
+      Breakpoint.new(short_form[mode], true, address, res['number'])
     end
 
     def internal_wp_create_helper(address, mode)
       mode, res = mode.to_s, ''
       max_tries(3, 0.01, 'pin_api:internal_wp_create_helper') do
-        short_form = {'regular' => '', 'read' => '-r', 'access' => '-a'}
+        short_form = { 'regular' => '', 'read' => '-r', 'access' => '-a' }
         res = @debugger.send_mi_string("-break-watch #{short_form[mode]} *#{address}")
         assert('unable to add a watchpoint') { res.content_type == 'done' }
       end
-      short_form = {'regular' => 'wpt', 'read' => 'hw-rwpt', 'access' => 'hw-awpt'}
-      return res.value[short_form[mode]]
+      short_form = { 'regular' => 'wpt', 'read' => 'hw-rwpt', 'access' => 'hw-awpt' }
+      res.value[short_form[mode]]
     end
 
     # TODO add tracepoints support?
@@ -151,7 +148,7 @@ module Schem
       max_tries(3, 0.01, 'pin_api:internal_bp_delete') do
         res = @debugger.send_mi_string("-break-delete #{bp.internal_representation}")
         # raise an exception when we are unable to delete a valid breakpoint
-        assert('unable to delete a valid breakpoint'){ res.content_type == 'done' }
+        assert('unable to delete a valid breakpoint') { res.content_type == 'done' }
         # everything went find, so let's return true
         return true
       end
@@ -166,8 +163,8 @@ module Schem
         res = @debugger.send_mi_string('-break-list')
         assert('unable to extract breakpoint list') { res.content_type == 'done' }
         bplist = res.value['BreakpointTable']['body']
-        assert("pin did not return a breakpoint list") { bplist != nil}
-        return bplist.each_pair.map do |name, bp|
+        assert('pin did not return a breakpoint list') { !bplist.nil? }
+        return bplist.each_pair.map do |_name, bp|
           Breakpoint.new(:unknown, :unknown, :unknown, bp['number'])
         end
       end
@@ -178,9 +175,9 @@ module Schem
     # @return
     # raise
     def internal_check_register_length(length)
-        @number_of_registers ||= length
-        @number_of_registers = length if length > @number_of_registers
-        assert('check_register_length failed') { length == @number_of_registers }
+      @number_of_registers ||= length
+      @number_of_registers = length if length > @number_of_registers
+      assert('check_register_length failed') { length == @number_of_registers }
     end
 
     # lists all registers and their content
@@ -190,7 +187,7 @@ module Schem
     def internal_registers
       @register_names ||= internal_get_register_names
       register_values = internal_get_register_values
-      return @register_names.each_with_index.reduce({}) do |acc, (name, index)|
+      @register_names.each_with_index.reduce({}) do |acc, (name, index)|
         acc[name] = Schem::Register.new(name, register_values[index])
         acc
       end
@@ -239,11 +236,11 @@ module Schem
       name = name.to_s
       assert { value.is_a? Integer }
       assert { value >= 0 }
-      assert( 'unknown register' ) { @register_names.include? name }
+      assert('unknown register') { @register_names.include? name }
       reg_number = @register_names.index(name)
       max_tries(3, 0.01, 'pin_api:internal_set_register') do
         res = @debugger.send_mi_string("-data-write-register-values x #{reg_number} #{value}")
-        assert( 'unable to set register') { res.content_type == 'done' }
+        assert('unable to set register') { res.content_type == 'done' }
         regs = internal_registers
         assert { regs[name].value['value'].to_gdbi == value }
         return true
@@ -298,10 +295,10 @@ module Schem
           res = @debugger.send_cli_string('maint info sections ALLOBJ', /Exec/)
           assert { res.is_a?(String) && res != '' }
           matches = res.split('\n').map do |x|
-          /(?<start>0x[a-fA-F0-9]+)->(?<end>0x[a-fA-F0-9]+)\s+at\s+(?<at>0x[a-fA-F0-9]+):\s+(?<name>\.[a-zA-Z\-\._]+)\s+(?<flags>.*)/.match(x) || /\s+Object\s+file:\s+(?<object_file>.+)\s+at\s+(?<at>0x[a-fA-F0-9]+)\s*/.match(x) || /\s+Object\s+file:\s+(?<object_file>.+)/.match(x)
+            /(?<start>0x[a-fA-F0-9]+)->(?<end>0x[a-fA-F0-9]+)\s+at\s+(?<at>0x[a-fA-F0-9]+):\s+(?<name>\.[a-zA-Z\-\._]+)\s+(?<flags>.*)/.match(x) || /\s+Object\s+file:\s+(?<object_file>.+)\s+at\s+(?<at>0x[a-fA-F0-9]+)\s*/.match(x) || /\s+Object\s+file:\s+(?<object_file>.+)/.match(x)
           end
           assert('no sections mapped') { matches.length > 0 }
-          object_file = ""
+          object_file = ''
           mapped_images = {}
           matches.compact.map do |x|
             if x.names.include? 'object_file'
@@ -316,13 +313,13 @@ module Schem
           # first all mapped_images will be grouped by their value so that we
           # group all the "segments" of an image are under the same key, then
           # we map the whole thing so that we get name_of_image -> start..end
-          mapped_images = mapped_images.each_pair.group_by { |_,x| x}.map_values{ |k,v| v.first.first.min .. v.last.first.max }
+          mapped_images = mapped_images.each_pair.group_by { |_, x| x }.map_values { |_k, v| v.first.first.min .. v.last.first.max }
           return mapped_images
         end
       end
     end
 
-    #image id == path
+    # image id == path
     def internal_get_image_bin(path)
       # TODO if not present locally get it via pin
       File.read(path)
@@ -334,18 +331,18 @@ module Schem
     # FIXME
     def internal_mem_mappings
       max_tries(3, 0.01, 'pin_api:internal_mem_mappings') do
-      res = @debugger.send_pin_string('monitor mappings')
+        res = @debugger.send_pin_string('monitor mappings')
         assert { res.is_a?(String) && res != '' }
-        #Delete the newline, the newline is needed for some reason...
-        res = res[0..-3] if res[-2..-1] == "\\n"
-        #substitute the single quotes to quotes
-        res = res.gsub("'",'"')
+        # Delete the newline, the newline is needed for some reason...
+        res = res[0..-3] if res[-2..-1] == '\\n'
+        # substitute the single quotes to quotes
+        res = res.gsub("'", '"')
         res = JSON.parse(res)
         # TODO maybe switch to the more finegrained version of memory sections
         # right now only few big sections are formed, to inspect this uncomment the following code:
         # binding.dbg
         # res.inspect
-        sections = res.map{|k,v|
+        sections = res.map{|k, v|
           from = v['start']
           to = v['end'] - 1
           length = to - from
@@ -414,7 +411,7 @@ module Schem
     # @return
     # raise
     def internal_on_stop(&callback)
-        @on_stop_callbacks.add callback
+      @on_stop_callbacks.add callback
     end
 
     # calls the given block if the inferior starts executing
@@ -422,9 +419,9 @@ module Schem
     # @return
     # raise
     def internal_on_execute(&callback)
-        c = caller
-        binding.dbg unless callback
-        @on_execute_callbacks.add callback
+      c = caller
+      binding.dbg unless callback
+      @on_execute_callbacks.add callback
     end
 
     # calls the given block if the debugger quits (e.g. if the current process termiantes / is terminated)
@@ -432,8 +429,7 @@ module Schem
     # @return
     # raise
     def internal_on_quit(&callback)
-        @on_quit_callbacks.add callback
+      @on_quit_callbacks.add callback
     end
-
   end
 end

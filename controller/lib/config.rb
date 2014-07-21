@@ -1,7 +1,6 @@
 # encoding: utf-8
 require_relative './configer/configer.rb'
 class DbgConfig < Configer::Template
-
   # where to expect the config file
   config_path 'config/dbg.conf'
 
@@ -15,8 +14,6 @@ class DbgConfig < Configer::Template
   value name: 'webserver' do
     value name: 'www_root', type: String, default: '../../frontend', docu: 'path to the www root used to server static files'
     value name: 'port', type: Integer, default: 8000, docu: 'the port on which the webserver listens for the interface'
-    value name: 'interface', type: String, default: "127.0.0.1", docu: 'the interface on which the webserver listens for the interface'
+    value name: 'interface', type: String, default: '127.0.0.1', docu: 'the interface on which the webserver listens for the interface'
   end
-
 end
-

@@ -2,11 +2,10 @@ require 'English'
 require 'pry'
 
 module Schem
-
   class DefaultFormater
     def format(type, path, string, loc)
       string =  ('=' * 80) + "\n" + string + "\n" + ('=' * 80) if string =~ /[\n\r]/
-      return "[#{type}:#{path} #{loc} #{Time.now.strftime("%a,%d.%b: %H:%M:%S:%L")}] --\n#{string}"
+      "[#{type}:#{path} #{loc} #{Time.now.strftime('%a,%d.%b: %H:%M:%S:%L')}] --\n#{string}"
     end
   end
 
@@ -22,9 +21,9 @@ module Schem
       end
       string =  ('=' * 80) + "\n" + string + "\n" + ('=' * 80) if string =~ /[\n\r]/
       time = Time.now.strftime('%a,%d.%b: %H:%M:%S:%L').grey
-      header = '['.grey + type.to_s.grey + ':' + path + ', ' + loc.grey + ', ' + time + '] --'.grey+"\n"
+      header = '['.grey + type.to_s.grey + ':' + path + ', ' + loc.grey + ', ' + time + '] --'.grey + "\n"
       content = " #{string}"
-      return header + content
+      header + content
     end
   end
 
@@ -51,17 +50,15 @@ module Schem
     end
 
     def get_call_stack
-      begin
-        raise AquireStackException.new
-      rescue AquireStackException => e
-        return e.backtrace
-      end
+      fail AquireStackException.new
+    rescue AquireStackException => e
+      return e.backtrace
     end
 
     def add(type, io, *args)
       kw_error = "please give keyword arguments only got #{args.inspect}, expected Hash"
-      raise kw_error if args.length > 1
-      raise kw_error if args.length == 1 && !args[0].is_a?(Hash)
+      fail kw_error if args.length > 1
+      fail kw_error if args.length == 1 && !args[0].is_a?(Hash)
       args = { filter: [], formater: DefaultFormater.new }.merge(args[0] || {})
       @sinks[type] ||= Set.new
       @sinks[type].add Sink.new(io, args[:filter], args[:formater])
@@ -69,8 +66,8 @@ module Schem
 
     def log(type, path, string, loc)
       loc = get_call_stack[3] unless loc
-      base_path = File.expand_path("../")+"/"
-      loc.gsub!(base_path,"")
+      base_path = File.expand_path('../') + '/'
+      loc.gsub!(base_path, '')
       @sinks[type].each  do |sink|
         sink.puts(type, path, string, loc)
       end
@@ -104,14 +101,13 @@ module Schem
         "#{exception.message} (#{exception.class})\n" + exception.backtrace.join("\n")
       end
     end
-
   end
 
   Log = SchemLog.new
 
   def self.init_logger
     cf = ColorFormater.new
-    #Log.add(:out, $stdout, formater: cf)
+    # Log.add(:out, $stdout, formater: cf)
     Log.add(:out, File.open('log/gdb.out.log', 'w'), filter: [/gdb:mi:(send|recv)/])
     Log.add(:dbg, $stdout, formater: cf)
     Log.add(:info, $stdout, formater: cf)

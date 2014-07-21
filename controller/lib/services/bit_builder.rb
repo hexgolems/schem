@@ -8,7 +8,7 @@ module Schem
     end
 
     def create_bit(img)
-      surround "create bitmap" do
+      surround 'create bitmap' do
         create_bitmaps_for_sections(img)
       end
     end
@@ -16,41 +16,41 @@ module Schem
     def create_new_bitmap(name, img, range)
       t = TypeInformationBitmap.new(name, img, range, srv)
       srv.bit.bitmaps[name] ||= t
-      return t
+      t
     end
 
     def find_bitmap(address)
-        bitmaps = srv.bit.bitmaps
-        keys = bitmaps.keys.select{ |x| bitmaps[x].range.include? address }
-        raise "found #{keys.length} bitmaps" unless keys.length == 1
-        return bitmaps[keys.first]
+      bitmaps = srv.bit.bitmaps
+      keys = bitmaps.keys.select { |x| bitmaps[x].range.include? address }
+      fail "found #{keys.length} bitmaps" unless keys.length == 1
+      bitmaps[keys.first]
     end
 
     def fill_bitmap(img, bit)
       img.with_dasm do |dasm|
         decoded = dasm.decoded
         decoded.each_value do |value|
-          next if value == true #because sometimes metasm thinks it should return {0 => true}
+          next if value == true # because sometimes metasm thinks it should return {0 => true}
           va = img.rva_to_va(value.address)
           next unless bit.range.include? va
           bit.set_type(va, :instruction, value.bin_length) unless bit.reused
         end
       end
-      return true
+      true
     end
 
     def create_bitmaps_for_sections(img)
       img.with_dasm do |dasm|
         get_sections(dasm).each do |s|
           name = img.get_section_name(s)
-          range = (img.rva_to_va(s[:start])...img.rva_to_va(s[:start]+s[:length]))
-          #TODO fix this
-          Log.error("colliding sections") and next if srv.bit.bitmaps.values.any?{|bit| bit.range.intersection range }
+          range = (img.rva_to_va(s[:start])...img.rva_to_va(s[:start] + s[:length]))
+          # TODO fix this
+          Log.error('colliding sections') && next if srv.bit.bitmaps.values.any? { |bit| bit.range.intersection range }
           bit = create_new_bitmap(name, img, range)
           fill_bitmap(img, bit)
         end
       end
-      return srv.bit.bitmaps
+      srv.bit.bitmaps
     end
 
     def get_sections(dasm)
@@ -59,7 +59,7 @@ module Schem
       section_info = sections.each_pair.map do |k, v|
         { start: k, length: v.virtsize, data: v.data }
       end
-      return section_info
+      section_info
     end
 
     register_service(:bitextractor, BitExtractorService)

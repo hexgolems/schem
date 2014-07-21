@@ -3,10 +3,8 @@ require 'metasm'
 
 # TODO document me
 module Schem
-
   # TODO document me
   class MetasmService < BaseService
-
     attr_reader :decoded
 
     include MonitorMixin
@@ -19,21 +17,21 @@ module Schem
     end
 
     def get_tags_name(img)
-      return "tags:"+img.name
+      'tags:' + img.name
     end
 
     def get_cached_tags(img)
       value = srv.db[get_tags_name(img)]
-      return value
+      value
     end
 
-    def store_cached_tags(img,tags)
+    def store_cached_tags(img, tags)
       srv.db[get_tags_name(img)] = tags
     end
 
     def extract(image_obj)
       tags =  get_cached_tags(image_obj)
-      if !tags
+      unless tags
         tags = extract_tags(image_obj)
         store_cached_tags(image_obj, tags)
       end
@@ -45,12 +43,12 @@ module Schem
 
     def extract_tags(image_obj)
       tags = []
-      image_obj.with_dasm do |dasm|
+      image_obj.with_dasm do |_dasm|
         tags += get_simple_labels(image_obj)
         tags += get_string_labels(image_obj)
         tags += get_function_block_labels(image_obj)
       end
-      return tags
+      tags
     end
 
     def get_simple_labels(image_obj)
@@ -63,7 +61,7 @@ module Schem
           end
         end
       end
-      return tags
+      tags
     end
     private :get_simple_labels
 
@@ -75,10 +73,10 @@ module Schem
           tags << Tag.new(
                 "'#{ str.inspect[1..-2] }'",
                 (address..address + str.length),
-                :type_info, {type: :string})
+                :type_info, type: :string)
         end
       end
-      return tags
+      tags
     end
     private :get_string_labels
 
@@ -86,28 +84,26 @@ module Schem
       tags = []
       image_obj.with_dasm do |dasm|
         dasm.function.values.each do |func|
-          blocks = get_function_blocks(dasm,func)
+          blocks = get_function_blocks(dasm, func)
           next unless blocks.length > 0
           faddress = blocks[0].address
           name = dasm.get_label_at(faddress)
           blocks.each do |block|
             from = image_obj.map_address(block.address)
-            to = image_obj.map_address((block.address + block.bin_length-1))
+            to = image_obj.map_address((block.address + block.bin_length - 1))
             range = (from..to)
             tags << Tag.new("#{name}.#{(block.address - faddress)}", range, :function_block)
           end
         end
       end
-      return tags
+      tags
     end
     private :get_function_block_labels
 
-
-    def get_function_blocks(dasm,func)
-        blocks = dasm.function_blocks(func)
-        blocks.keys.map { |address| dasm.block_at(address) }
+    def get_function_blocks(dasm, func)
+      blocks = dasm.function_blocks(func)
+      blocks.keys.map { |address| dasm.block_at(address) }
     end
-
   end
   register_service(:metasm_extractor, MetasmService)
 end

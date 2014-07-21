@@ -1,6 +1,6 @@
 # encoding: utf-8
 require './lib/generator.rb'
-require "wrong/adapters/rspec"
+require 'wrong/adapters/rspec'
 
 describe 'SEQ::Generator#need_init?' do
 
@@ -66,7 +66,7 @@ describe 'SEQ::Generator#step' do
 
   it 'executes increment' do
     g = SEQ::Generator.new(['1+1', [:inc, '2'], nil])
-    assert { g.step('line') == 2 } 
+    assert { g.step('line') == 2 }
     assert { g.step('line') == 4 }
     assert { g.step('line') == 6 }
   end

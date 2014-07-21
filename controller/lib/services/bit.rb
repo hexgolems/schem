@@ -21,23 +21,22 @@ require 'pry'
 require_relative '../bit.rb'
 
 module Schem
-
   # Service for storing and retrieving inferred types
   class TypeInformationBitmapService < BaseService
     attr_accessor :bitmaps
 
     def initialize(*args)
-      @bitmaps = { }
+      @bitmaps = {}
       super
     end
 
     def find_bitmap(range)
       range = (range .. range) if range.class != Range
       keys = @bitmaps.keys
-      keys = keys.select{|x| @bitmaps[x].range.intersection(range) == range}
-      raise "found #{keys.length} bitmaps" unless keys.length <= 1
+      keys = keys.select { |x| @bitmaps[x].range.intersection(range) == range }
+      fail "found #{keys.length} bitmaps" unless keys.length <= 1
       bitmap = @bitmaps[keys.first]
-      return bitmap
+      bitmap
     end
 
     def get_as_disasm_type(address)
@@ -45,7 +44,7 @@ module Schem
       return nil unless type
       address = type.address
       range = (address ... (address + (type.length)))
-      return case type.type
+      case type.type
         when :string then StringType.new(srv, range)
         when :int8, :int16, :int32, :int64, :pointer then IntegerType.new(srv, range, type.signed)
         when :instruction then InstructionType.new(srv, range)
@@ -56,7 +55,7 @@ module Schem
       bit = srv.bit.find_bitmap(address)
       return false unless bit
       bit.set_type(address, type, length)
-      return true
+      true
     end
 
     def get(address)
@@ -67,7 +66,7 @@ module Schem
       t = find_bitmap(range)
       return [] unless t
       types = t.types(range)
-      return types
+      types
     end
 
     register_service(:bit, TypeInformationBitmapService)

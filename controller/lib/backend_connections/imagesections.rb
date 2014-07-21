@@ -16,12 +16,12 @@ module Schem
     end
 
     def intersection(rangeb)
-      res = ([from,rangeb.min].max .. [to,rangeb.max].min)
+      res = ([from, rangeb.min].max .. [to, rangeb.max].min)
       return nil if res.first > res.last
-      return res
+      res
     end
 
-    def == (other)
+    def ==(other)
       return false unless other.class == MemorySection
       return false if @from != other.from
       return false if @to != other.to
@@ -30,8 +30,7 @@ module Schem
       return false if @name != other.name
       return false if @flags != other.flags
       return false if @object_file != other.object_file
-      return true
+      true
     end
-
   end
 end

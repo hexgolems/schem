@@ -2,8 +2,6 @@ require 'ostruct'
 
 # TODO document me
 class BaseService
-
-
   attr_accessor :is_initialized
   attr_reader :invalidation_counter
 
@@ -20,7 +18,7 @@ class BaseService
   end
 
   def invalidate
-    raise 'Do not modify service in ensure block' if Thread.current[:is_inside_ensure_consistency] == true
+    fail 'Do not modify service in ensure block' if Thread.current[:is_inside_ensure_consistency] == true
     @invalidation_counter += 1
   end
 
@@ -50,16 +48,15 @@ class BaseService
   end
 
   def get_published_value(name)
-    return @published_values[name].value
+    @published_values[name].value
   end
 
   def method_missing(name, *args, &block)
     super unless @published_values.include? name
-    return get_published_value(name)
+    get_published_value(name)
   end
 
   def respond_to_missing?(name, *args, &block)
-    return @published_values[name] || super
+    @published_values[name] || super
   end
-
 end

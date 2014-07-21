@@ -6,16 +6,16 @@ silence_warnings do
   require 'set'
 end
 
-  require_relative './service.rb'
+require_relative './service.rb'
 
 # @param [Symbol] name, the name under which this
 # @param [Service] service register this object as a service
 # This function adds the given object to the list of registered services in the
 # current specified service manager
 def register_service(name, service)
-# rubocop:disable AvoidGlobalVars
+  # rubocop:disable AvoidGlobalVars
   $registering_service_manager.register(name, service)
-# rubocop:enable AvoidGlobalVars
+  # rubocop:enable AvoidGlobalVars
 end
 
 module Schem
@@ -34,18 +34,15 @@ module Schem
         service.init_callback if service.respond_to?(:init_callback)
         service.is_initialized = :done
       end
-      return service
+      service
     end
 
     def respond_to_missing?(name, include_private = false)
       @services.include?(name) || super
     end
-
   end
   # TODO document me
   class ServiceManager
-
-
     attr_reader :service_finder
     attr_accessor :services
 
@@ -82,21 +79,21 @@ module Schem
       surround('servicemanager', 'loading services') do
         @controller = controller
         $registering_service_manager = self
-          files = Dir.glob("#{File.dirname(__FILE__)}/**/*.rb")
-          files.each do |file|
-            Kernel.load(file, false) if file != __FILE__ && File.basename(file) != 'service.rb'
-          end
+        files = Dir.glob("#{File.dirname(__FILE__)}/**/*.rb")
+        files.each do |file|
+          Kernel.load(file, false) if file != __FILE__ && File.basename(file) != 'service.rb'
+        end
         $registering_service_manager = nil
       end
 
       surround('servicemanager', 'initializing services') do
-      @services.each_value do |service|
-          if service.is_initialized != :done
-            service.is_initialized = :working
-            service.init_callback if service.respond_to?(:init_callback)
-            service.is_initialized = :done
+        @services.each_value do |service|
+            if service.is_initialized != :done
+              service.is_initialized = :working
+              service.init_callback if service.respond_to?(:init_callback)
+              service.is_initialized = :done
+            end
           end
-        end
       end
     end
 
@@ -121,9 +118,9 @@ module Schem
       end
     end
 
-    def [] (name)
+    def [](name)
       if @services.include? name
-      return @services[name]
+        return @services[name]
       else
         Log.error('services', "tyring to access unknonw service #{name}")
         return nil
@@ -134,7 +131,5 @@ module Schem
     def list_services
       @services
     end
-
   end
-
 end

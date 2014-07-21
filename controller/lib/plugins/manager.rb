@@ -1,26 +1,23 @@
 # encoding: utf-8
 require_relative '../include.rb'
 
-
 silence_warnings do
   require 'pp'
   require 'socket'
   require 'monitor'
 end
 
-
 # @param [Class] pclass register this Class as a plugin
 # This function adds the given Class to the list of registered plugins in the
 # current specified plugin manager
 def register_plugin(pclass)
-  raise "expected a class not #{pclass.class}" unless pclass.class == Class
-# rubocop:disable AvoidGlobalVars
+  fail "expected a class not #{pclass.class}" unless pclass.class == Class
+  # rubocop:disable AvoidGlobalVars
   $registering_plugin_manager.register_plugin(pclass)
-# rubocop:enable AvoidGlobalVars
+  # rubocop:enable AvoidGlobalVars
 end
 
 module Schem
-
   class PluginManager
     include MonitorMixin
     def initialize(*args)
@@ -33,20 +30,20 @@ module Schem
     # this function will reload all plugins
     # @param [Schem::DBGControll] controller the current controller
     def load(controller)
-      surround("pluginmanager","loading plugins") do
-        @controller = controller
-        # rubocop:disable AvoidGlobalVars
-        $registering_plugin_manager = self
-        load_files()
-        $registering_plugin_manager = nil
-        # rubocop:enable AvoidGlobalVars
+      surround('pluginmanager', 'loading plugins') do
+       @controller = controller
+       # rubocop:disable AvoidGlobalVars
+       $registering_plugin_manager = self
+       load_files
+       $registering_plugin_manager = nil
+       # rubocop:enable AvoidGlobalVars
      end
     end
 
     # this function will go through the plugin folder and load all ruby files recursively
     def load_files(path = File.dirname(__FILE__))
-      Dir.glob(path+"/**/*.rb").each do |file|
-        load_one_file(file) if file != __FILE__ && File.basename(file) != "plugin.rb"
+      Dir.glob(path + '/**/*.rb').each do |file|
+        load_one_file(file) if file != __FILE__ && File.basename(file) != 'plugin.rb'
       end
     end
 
@@ -59,7 +56,7 @@ module Schem
     # will be used  by the global `register_plugin`
     # @param [Class] plugin the plugin
     def register_plugin(plugin)
-      Log.info('plugins',"registered #{plugin}")
+      Log.info('plugins', "registered #{plugin}")
       synchronize do
         @plugins << plugin
       end
@@ -70,7 +67,6 @@ module Schem
         @plugin_instances << instance
       end
     end
-
 
     # removes the given instance if it is currently managed by the plugin manager
     def remove_instance(instance)
@@ -93,7 +89,6 @@ module Schem
       end
     end
 
-
     # this function creates a set of instances for all plugins which match block
     def create_all_where(&block)
       synchronize do
@@ -105,10 +100,10 @@ module Schem
     # hast `auto_run.*` methods and run all those methods
     def run_all_auto
       synchronize do
-        surround("pluginmanager","running auto_runs") do
+        surround('pluginmanager', 'running auto_runs') do
           plugin_instances = create_all_where(&:auto_run?)
           plugin_instances.each(&:async_auto_run)
-          plugin_instances.each{|inst| register_plugin_instance(inst) }
+          plugin_instances.each { |inst| register_plugin_instance(inst) }
         end
       end
     end
@@ -117,11 +112,10 @@ module Schem
     def find_plugin(name)
       synchronize do
         return @plugins.find do |pclass|
-          pclass.to_s.downcase.gsub(/plugin\Z/, '').gsub("schem::","") == name.downcase.gsub(/plugin\Z/,'')
+          pclass.to_s.downcase.gsub(/plugin\Z/, '').gsub('schem::', '') == name.downcase.gsub(/plugin\Z/, '')
         end
       end
     end
-
 
     # try to find a plugin by the given name and instantiate it / run its web_run method
     # returns true if a pluign was found, false otherwise
@@ -144,6 +138,5 @@ module Schem
         @plugin_instances.each(&:shutdown)
       end
     end
-
   end
 end

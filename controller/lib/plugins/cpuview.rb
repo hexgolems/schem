@@ -12,15 +12,14 @@ end
 
 module Schem
   class CpuViewPlugin < LaneViewPlugin
-
     def initialize(*args)
       super(*args)
       @disasm_lane = DisassemblyLane.new(self)
       @lanes = [
-          AddressLane.new(self),
-          @disasm_lane
-        ]
-      @css_class = "lv-cpu"
+        AddressLane.new(self),
+        @disasm_lane
+      ]
+      @css_class = 'lv-cpu'
       @last_address_ranges = []
       @lines = 30
     end
@@ -28,19 +27,19 @@ module Schem
     def get_address_ranges(address, lines, lines_before)
       @lines = lines
       @last_address_ranges = @disasm_lane.get_address_ranges(address, lines, lines_before)
-      return @last_address_ranges
+      @last_address_ranges
     end
 
     def get_entrypoints
-      addresses = ["main","entrypoint"].map{|name| srv.tags.by_name(name).map{|t| t.range.min} }
+      addresses = %w(main entrypoint).map { |name| srv.tags.by_name(name).map { |t| t.range.min } }
       possible_eps = addresses.flatten.compact.uniq
-      return possible_eps
+      possible_eps
     end
 
-    def wait_for_updates_loop()
+    def wait_for_updates_loop
       eps = get_entrypoints
       get_address_ranges(eps.first, @lines, 3) if eps.length > 0
-      send_updated()
+      send_updated
       loop do
         ip = srv.reg.ip
         if ip
@@ -51,7 +50,6 @@ module Schem
         wait_for(srv.on_stop, srv.mem)
       end
     end
-
   end
 end
 

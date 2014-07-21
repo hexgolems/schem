@@ -3,7 +3,7 @@ require_relative './../include.rb'
 
 module Schem
   class Breakpoint
-    attr_accessor  :type, :enabled, :address, :internal_representation
+    attr_accessor :type, :enabled, :address, :internal_representation
 
     def initialize(type, enabled, address, internal_representation)
       @type = type
@@ -30,14 +30,13 @@ module Schem
       @api.internal_bp_delete(self)
     end
 
-    def == (other)
+    def ==(other)
       return false unless other.class == Breakpoint
       return false if @type != other.type
       return false if @enabled != other.enabled
       return false if @address != other.address
       return false if @internal_representation != other.internal_representation
-      return true
+      true
     end
-
   end
 end

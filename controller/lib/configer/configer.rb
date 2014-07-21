@@ -7,11 +7,10 @@ module Configer
   module DummyType
   end
 
-# this class is a Tempalte for a config file. Create your own config file by
-# deriving from this class and calling the value funktion to create the config
-# options.
+  # this class is a Tempalte for a config file. Create your own config file by
+  # deriving from this class and calling the value funktion to create the config
+  # options.
   class Template
-
     def self.name
       :name
     end
@@ -56,9 +55,9 @@ module Configer
       end
     end
 
-# sets the path to the config file
-# @param [String] path the path to the config file (will get expanded later on
-# - therefore the path can user ~ to access home etc.)
+    # sets the path to the config file
+    # @param [String] path the path to the config file (will get expanded later on
+    # - therefore the path can user ~ to access home etc.)
     def self.config_path(path)
       @file_path = path
     end
@@ -74,7 +73,7 @@ module Configer
     # the file does not exist jet.
     # @return [string] the content or nil
     def self.read_config_file
-      raise 'cannot load file withour file path, use config_path(path) to set it' unless @file_path
+      fail 'cannot load file withour file path, use config_path(path) to set it' unless @file_path
       begin
         return File.read(File.expand_path(@file_path))
       rescue
@@ -87,7 +86,7 @@ module Configer
     # if the file does not exist jet. It will also populate the data structure with
     # the corresponding values
     def self.load
-      string = self.read_config_file()
+      string = read_config_file
       return unless string
       struct = JSON.parse(string)
       auto_write, @auto_write = @auto_write, false # deactivate autowrite_while loading
@@ -95,26 +94,25 @@ module Configer
       @auto_write = auto_write
     end
 
-# writes the config structure back to the config file
+    # writes the config structure back to the config file
     def self.write
       string = JSON.pretty_generate(@root)
       File.open(File.expand_path(@file_path), 'w') { |f| f.write(string) }
     end
 
-# returns the tree of config options
+    # returns the tree of config options
     def self.get_tree
       @root
     end
 
-# this function gets called everytime a option is changed.
-    def self.update(node)
+    # this function gets called everytime a option is changed.
+    def self.update(_node)
       write if @auto_write
     end
 
     def self.method_missing(name, *params, &block)
-      return @root.get_child(name.to_s) if @root.has_child?(name.to_s) && params == [] && block == nil
+      return @root.get_child(name.to_s) if @root.has_child?(name.to_s) && params == [] && block.nil?
       super
     end
   end
-
-end# end of module Configer
+end # end of module Configer

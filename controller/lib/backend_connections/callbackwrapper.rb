@@ -8,15 +8,15 @@ module Schem
     end
 
     def on_execute(&block)
-      return internal_on_execute(&block)
+      internal_on_execute(&block)
     end
 
     def on_quit(&block)
-      return internal_on_quit(&block)
+      internal_on_quit(&block)
     end
 
     def on_stop(&block)
-      return internal_on_stop(&block)
+      internal_on_stop(&block)
     end
 
     def on_run(&block)

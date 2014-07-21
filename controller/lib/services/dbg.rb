@@ -6,7 +6,7 @@ module Schem
     def initialize(*args)
       super(*args)
       @cache = {}
-      @debugger=@controller.debugger
+      @debugger = @controller.debugger
       init_dbg_api
     end
 
@@ -19,15 +19,15 @@ module Schem
     end
 
     def bp(address)
-      srv.tags.add(Tag.new(nil,(address..address),:breakpoint, {enable: true}))
-      return super
+      srv.tags.add(Tag.new(nil, (address..address), :breakpoint, enable: true))
+      super
     end
 
     def bp_disable_at(address)
       tags_at_addr = srv.tags.by_address(address)
-      bps = tags_at_addr.select{ |x| x.type == :breakpoint}
-      bps.each{ |x| srv.tags.remove(x) }
-      return super
+      bps = tags_at_addr.select { |x| x.type == :breakpoint }
+      bps.each { |x| srv.tags.remove(x) }
+      super
     end
   end
 

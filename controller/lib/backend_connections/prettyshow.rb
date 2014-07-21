@@ -1,6 +1,6 @@
 # encoding: utf-8
 class String
-# rubocop: disable StringLiterals
+  # rubocop: disable StringLiterals
   # colorizes string red
   def red
     colorize(self, "\e[1m\e[31m")
@@ -65,6 +65,5 @@ class String
   def colorize(text, color_code)
     "#{color_code}#{text}\e[0m"
   end
-# rubocop: enable StringLiterals
-
+  # rubocop: enable StringLiterals
 end

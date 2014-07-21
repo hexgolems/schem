@@ -16,6 +16,5 @@ module Schem
     def stop
       @runner.kill
     end
-
   end
 end

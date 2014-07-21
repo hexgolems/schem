@@ -8,16 +8,15 @@ class Logger
   end
 
   def self.from_config_s(filename)
-    return Logger.new(filename)
+    Logger.new(filename)
   end
 end
 
 class LogLevel
-
   include Configer::Dummy
 
   def self.levels
-    %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]
+    %w(DEBUG INFO WARN ERROR FATAL UNKNOWN)
   end
 
   def self.to_config_s(val)
@@ -35,6 +34,6 @@ class LogLevel
     rescue NameError
       return Logger::DEBUG
     end
-    return val.to_i
+    val.to_i
   end
 end
