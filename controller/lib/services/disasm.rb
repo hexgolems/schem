@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO document me
 module Schem
   class DisassembledInstruction
@@ -18,30 +19,28 @@ module Schem
 
     def lines(address, lines, lines_before)
       surround 'disam:lines' do
-          instructions = [line_at(address)]
-          lines_before.times do
-            before_addr = instructions.first.range.min - 1
-            instructions.unshift(line_at(before_addr))
-          end
-          lines_after = lines - lines_before - 1
-          lines_after.times do
-            after_addr = instructions.last.range.max + 1
-            instructions << line_at(after_addr)
-          end
-          return instructions
+        instructions = [line_at(address)]
+        lines_before.times do
+          before_addr = instructions.first.range.min - 1
+          instructions.unshift(line_at(before_addr))
         end
+        lines_after = lines - lines_before - 1
+        lines_after.times do
+          after_addr = instructions.last.range.max + 1
+          instructions << line_at(after_addr)
+        end
+        return instructions
+      end
     end
 
     def line_at(address)
       cached_instr = srv.disasm_cache.get(address)
       if cached_instr
         mem = srv.mem.read_raw_bytes(cached_instr.range.min, cached_instr.range.size)
-        if mem == cached_instr.bin
-          return cached_instr
-        end
+        return cached_instr if mem == cached_instr.bin
       end
       type = srv.types.get_newest_type_at(address)
-      range = ( type == :unknown ? (address .. address) : type.range)
+      range = (type == :unknown ? (address..address) : type.range)
       mem = srv.mem.read_raw_bytes(range.min, range.size)
       new_disasm = get_disasm(mem, type, address)
       srv.disasm_cache.add(new_disasm)

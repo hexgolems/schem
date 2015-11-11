@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Schem
   class Highlighter < BaseService
     def initialize(*args)

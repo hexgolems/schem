@@ -97,7 +97,7 @@ class Range
   def intersection(rangeb)
     assert { rangeb.class == Range }
     assert { rangeb.min }
-    res = ([min, rangeb.min].max .. [max, rangeb.max].min)
+    res = ([min, rangeb.min].max..[max, rangeb.max].min)
     return nil if res.first > res.last
     res
   end
@@ -229,10 +229,10 @@ class String
   end
 
   def ellipsis(len)
-    res = if length > len then
+    res = if length > len
             self[0..len - 2] + '…'
-    else
-      self
+          else
+            self
     end
     res
   end

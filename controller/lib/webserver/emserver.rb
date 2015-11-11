@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'eventmachine'
 require 'em-websocket'
 require 'em-http-server'
@@ -40,7 +41,7 @@ module Schem
     attr_accessor :plugin_manager
     def run_websocket
       EM::WebSocket.run(host: '127.0.0.1', port: 8001) do |ws|
-        ws.onopen { |handshake|
+        ws.onopen do |handshake|
           path =  handshake.path.split('/').select { |str| str.length > 0 }
           if path[0] == 'spawn_plugin'
             if @plugin_manager.run_web(path[1], ws)
@@ -52,7 +53,7 @@ module Schem
               ws.close
             end
           end
-        }
+        end
 
         # ws.onclose { puts "Connection closed" }
 

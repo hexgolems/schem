@@ -88,12 +88,12 @@ module Schem
 
       surround('servicemanager', 'initializing services') do
         @services.each_value do |service|
-            if service.is_initialized != :done
-              service.is_initialized = :working
-              service.init_callback if service.respond_to?(:init_callback)
-              service.is_initialized = :done
-            end
+          if service.is_initialized != :done
+            service.is_initialized = :working
+            service.init_callback if service.respond_to?(:init_callback)
+            service.is_initialized = :done
           end
+        end
       end
     end
 

@@ -47,7 +47,7 @@ module Schem
 
     def get_address_ranges(address, lines, lines_before)
       @disasm = srv.disasm.lines(address, lines, lines_before)
-      @disasm.map { |i| i.range }
+      @disasm.map(&:range)
     end
 
     def get_line_reprs(address_range)

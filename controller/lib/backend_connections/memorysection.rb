@@ -16,7 +16,7 @@ module Schem
     end
 
     def intersection(rangeb)
-      res = ([from, rangeb.min].max .. [to, rangeb.max].min)
+      res = ([from, rangeb.min].max..[to, rangeb.max].min)
       return nil if res.first > res.last
       res
     end

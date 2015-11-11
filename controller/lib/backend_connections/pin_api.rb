@@ -313,7 +313,7 @@ module Schem
           # first all mapped_images will be grouped by their value so that we
           # group all the "segments" of an image are under the same key, then
           # we map the whole thing so that we get name_of_image -> start..end
-          mapped_images = mapped_images.each_pair.group_by { |_, x| x }.map_values { |_k, v| v.first.first.min .. v.last.first.max }
+          mapped_images = mapped_images.each_pair.group_by { |_, x| x }.map_values { |_k, v| v.first.first.min..v.last.first.max }
           return mapped_images
         end
       end
@@ -342,14 +342,14 @@ module Schem
         # right now only few big sections are formed, to inspect this uncomment the following code:
         # binding.dbg
         # res.inspect
-        sections = res.map{|k, v|
+        sections = res.map do|k, v|
           from = v['start']
           to = v['end'] - 1
           length = to - from
           object_file = k
           offset = nil
           MemorySection.new(from, to, length, offset, object_file)
-        }
+        end
         return sections
       end
     end

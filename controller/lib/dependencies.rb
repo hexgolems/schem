@@ -1,3 +1,4 @@
+# encoding: utf-8
 libdir = []
 libdir << File.expand_path(File.join(File.dirname(__FILE__), '../../dependencies/thread/lib/'))
 libdir << File.expand_path(File.join(File.dirname(__FILE__), '../../dependencies/metasm/'))

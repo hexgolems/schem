@@ -44,7 +44,7 @@ module Schem
         ip = srv.reg.ip
         if ip
           type = srv.types.get_newest_type_at(ip)
-          srv.disasm_updater.disasm(ip .. ip + 100) unless type.class == InstructionType && type.range.min == ip
+          srv.disasm_updater.disasm(ip..ip + 100) unless type.class == InstructionType && type.range.min == ip
           goto(ip, 3, srv.reg.old_ip)
         end
         wait_for(srv.on_stop, srv.mem)

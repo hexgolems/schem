@@ -7,7 +7,6 @@ def parse_arguments
   options = OpenStruct.new
 
   OptionParser.new do |opts|
-
     opts.banner = 'implement banner \n'
 
     opts.on('-b', '--backend [String]', 'set this to either gdb or pin (for now)') do |backend|
@@ -22,7 +21,6 @@ def parse_arguments
       puts opts
       exit
     end
-
   end.parse!
 
   options

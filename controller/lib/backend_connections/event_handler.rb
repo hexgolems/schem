@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Schem
   class ThreadedEventHandler
     def initialize(&callback)

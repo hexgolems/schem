@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO document me
 module Schem
   # TODO document me
@@ -18,7 +19,7 @@ module Schem
     def update_types(decoded)
       decoded.each_pair do |_, ins|
         insert_into_bit(ins)
-        srv.disasm_cache.invalidate(ins.address .. ins.address + ins.bin_length)
+        srv.disasm_cache.invalidate(ins.address..ins.address + ins.bin_length)
       end
     end
 
@@ -28,7 +29,7 @@ module Schem
       type = :instruction
       return true if srv.bit.set(address, type, length)
       name = ''
-      range = address ... address + length
+      range = address...address + length
       type = :type_info
       data = { type: :instruction }
       srv.tags.add(Tag.new(name, range, type, data))

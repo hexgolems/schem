@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO document me
 module Schem
   class Type
@@ -101,7 +102,7 @@ module Schem
 
     def get_newest_type_at(address)
       types = get_types_at(address)
-      return types.max_by { |x| x.last_touched } if types.length > 1
+      return types.max_by(&:last_touched) if types.length > 1
       types.first
     end
   end

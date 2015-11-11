@@ -63,14 +63,14 @@ module Schem
     end
 
     def get_lane_colgroups
-      @lanes.map { |lane| lane.render_colgroup }.join(' ')
+      @lanes.map(&:render_colgroup).join(' ')
     end
 
     def send_available_actions
       actions_per_lane = @lanes.map do |lane|
-          actions = lane.get_available_actions
-          actions.map { |a| a && { icon: a[:icon], label: a[:label] } }
-        end
+        actions = lane.get_available_actions
+        actions.map { |a| a && { icon: a[:icon], label: a[:label] } }
+      end
       @socket.send (JSON.dump(type: 'actions', actions: actions_per_lane))
     end
 
@@ -110,7 +110,7 @@ module Schem
         'lines_before' => lines_before,
         'length' => @last_address_ranges.length,
         'offset_data' => { type: 'fixed', offset: 0 }
-        )
+      )
     end
 
     def handle_context_action(req)

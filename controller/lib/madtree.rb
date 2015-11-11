@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'set'
 require 'monitor'
 
@@ -45,8 +46,8 @@ module Schem
       end
 
       def overflow_collapsed_subtree
-        @left ||= Node.new(@represented_range.min .. @position - 1)
-        @right ||= Node.new(@position + 1 .. @represented_range.max)
+        @left ||= Node.new(@represented_range.min..@position - 1)
+        @right ||= Node.new(@position + 1..@represented_range.max)
         @collapsed_subtree.each do |range|
           insert_in_child(range)
         end

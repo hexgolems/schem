@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO document me
 module Schem
   # TODO document me
@@ -34,14 +35,14 @@ module Schem
       assert { range.first <= range.last }
       @mapped = sections
       # find all intersecting subranges
-      intersections = @mapped.sort_by { |x| x.from }.map { |sec| sec.intersection(range) }.compact
+      intersections = @mapped.sort_by(&:from).map { |sec| sec.intersection(range) }.compact
       # all the intersetcions are indeed valid maped regions
       intersections = intersections.map { |one_range| [:valid, one_range] }
       # now add the invalid reagions between the mapped ones
       res = []
       intersections.each_index do |i|
         res << intersections[i]
-        if i + 1 < intersections.length and ! (intersections[i][1].max + 1) == intersections[i + 1][1].min
+        if i + 1 < intersections.length && ! (intersections[i][1].max + 1) == intersections[i + 1][1].min
           res << [:invalid, ((intersections[i][1].max + 1)..(intersections[i + 1][1].min - 1))]
         end
       end

@@ -31,13 +31,13 @@ module Schem
     # @param [Schem::DBGControll] controller the current controller
     def load(controller)
       surround('pluginmanager', 'loading plugins') do
-       @controller = controller
-       # rubocop:disable AvoidGlobalVars
-       $registering_plugin_manager = self
-       load_files
-       $registering_plugin_manager = nil
-       # rubocop:enable AvoidGlobalVars
-     end
+        @controller = controller
+        # rubocop:disable AvoidGlobalVars
+        $registering_plugin_manager = self
+        load_files
+        $registering_plugin_manager = nil
+        # rubocop:enable AvoidGlobalVars
+      end
     end
 
     # this function will go through the plugin folder and load all ruby files recursively

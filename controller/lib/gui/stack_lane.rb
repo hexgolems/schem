@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Schem
   class StackLane < HexWidgetLane
     colspan 1
@@ -22,7 +23,7 @@ module Schem
     end
 
     def get_tags(address)
-      tags = srv.tags.by_range(address..address).select { |t| t.name }
+      tags = srv.tags.by_range(address..address).select(&:name)
       tag_repr = tags.map { |t| tag(t.name, t.data[:info_string], t.data[:color]) }
     end
 

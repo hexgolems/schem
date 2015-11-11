@@ -3,7 +3,6 @@ require './lib/parser.rb'
 require 'wrong/adapters/rspec'
 
 describe 'SEQ::Parser#parse' do
-
   it 'throws an exception if an empty array is given' do
     p = SEQ::Parser.new
     assert { rescuing { p.parse [] } }
@@ -56,7 +55,6 @@ describe 'SEQ::Parser#parse' do
 end
 
 describe 'SEQ::Parser#parse_expression' do
-
   it 'returns nil if a invalid expression is given' do
     p = SEQ::Parser.new
     assert { p.parse_expression('fn$$ord').nil? }
@@ -71,7 +69,6 @@ describe 'SEQ::Parser#parse_expression' do
 end
 
 describe 'SEQ::Parser#parse_key_word' do
-
   it 'returns nil if nonsense is given' do
     p = SEQ::Parser.new
     ['fn$$ord', ' loop', 'looop'].each do |e|
@@ -82,13 +79,12 @@ describe 'SEQ::Parser#parse_key_word' do
   it 'returns the symbol of the keyword type if a valid expression is given (ignoring case)' do
     p = SEQ::Parser.new
     { '++' => :inc, 'loop' => :loop, 'on' => :on, 'step' => :step, 'STEP' => :step }.each_pair do |k, v|
-     assert { p.parse_key_word(k) == v }
-   end
+      assert { p.parse_key_word(k) == v }
+    end
   end
 end
 
 describe 'SEQ::Parser#parse_loop' do
-
   it 'returns nil if index is beyond the range of argv' do
     p = SEQ::Parser.new
     assert { p.parse_loop([1, 2], 2).nil? }
@@ -114,5 +110,4 @@ describe 'SEQ::Parser#parse_loop' do
     assert { rescuing { p.parse_loop([1, 'loop', 'on'], 1) } }
     assert { rescuing { p.parse_loop([1, 'loop'], 1) } }
   end
-
 end

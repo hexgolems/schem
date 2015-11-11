@@ -107,7 +107,7 @@ module Schem
       @colspan = x
     end
     def self.get_colspan
-      @colspan or fail "colspan not initialized for #{self}"
+      @colspan || fail("colspan not initialized for #{self}")
     end
     def self.colstyle(x)
       @colstyle = x
@@ -164,7 +164,7 @@ module Schem
         repr = address_range.min.hex_dump(8)
       end
       tags = srv.tags.by_address(address_range.min)
-      labels = tags.select { |tag| tag.type == :label }.map { |tag| tag.name }.compact
+      labels = tags.select { |tag| tag.type == :label }.map(&:name).compact
       label = labels.map do |x|
         "<span title=\"#{Esc.h(x)}\">#{Esc.h(x.ellipsis(10))}</span>"
       end.join('<br>')

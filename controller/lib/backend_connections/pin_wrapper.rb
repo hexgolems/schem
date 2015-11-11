@@ -243,15 +243,9 @@ module Schem
         captured, capturing = '', false
         future = Thread.promise
         handler = ThreadedEventHandler.new do |msg|
-          if msg.value =~ regex
-            capturing = true
-          end
-          if capturing && msg.value =~ /\Adone\Z/
-            future.deliver captured
-          end
-          if capturing
-            captured += msg.value
-          end
+          capturing = true if msg.value =~ regex
+          future.deliver captured if capturing && msg.value =~ /\Adone\Z/
+          captured += msg.value if capturing
         end
         register_event_handler('console', 'gdb', handler)
         instr = "-interpreter-exec console \"#{mi_instr}\""

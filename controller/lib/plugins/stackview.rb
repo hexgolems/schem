@@ -18,7 +18,7 @@ module Schem
       super(*args)
       @lanes = [
         AddressLane.new(self),
-        StackLane.new(self),
+        StackLane.new(self)
       ]
       @css_class = 'lv-stack'
       @byte_width = srv.obj.word_width / 8

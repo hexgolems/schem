@@ -46,9 +46,7 @@ module Schem
     def highlight_changed(registers)
       registers = remove_unset(registers)
       temp_registers = deep_copy(registers)
-      if @old_regs.nil? || @old_regs == {}
-        @old_regs = registers
-      end
+      @old_regs = registers if @old_regs.nil? || @old_regs == {}
       registers.keys.each do |reg|
         registers[reg].keys.each do |sub_reg|
           if @old_regs[reg][sub_reg] != registers[reg][sub_reg]

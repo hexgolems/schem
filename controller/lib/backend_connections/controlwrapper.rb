@@ -20,9 +20,7 @@ module Schem
 
     def run
       internal_run
-      @run_callbacks.each do |callback|
-        callback.call
-      end
+      @run_callbacks.each(&:call)
     end
 
     def quit

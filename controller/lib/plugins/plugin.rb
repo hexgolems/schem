@@ -47,9 +47,9 @@ module Schem
       ::Thread.current[:is_inside_ensure_consistency] = true
       begin
         loop do
-          old_invalidation_counters = reason.services_watching.map { |service| service.invalidation_counter }
+          old_invalidation_counters = reason.services_watching.map(&:invalidation_counter)
           block.call
-          new_invalidation_counters = reason.services_watching.map { |service| service.invalidation_counter }
+          new_invalidation_counters = reason.services_watching.map(&:invalidation_counter)
           break if old_invalidation_counters == new_invalidation_counters
         end
       ensure

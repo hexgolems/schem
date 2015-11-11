@@ -65,7 +65,7 @@ module Schem
 
       srv = service_manager.srv
       binding.dbg
-      sleep(100) while true
+      sleep(100) loop do
 
       exit
     end

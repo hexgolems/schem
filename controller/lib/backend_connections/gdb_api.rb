@@ -313,7 +313,7 @@ module Schem
           # first all mapped_images will be grouped by their value so that we
           # group all the "segments" of an image are under the same key, then
           # we map the whole thing so that we get name_of_image -> start..end
-          mapped_images = mapped_images.each_pair.group_by { |_, x| x }.map_values { |_k, v| v.first.first.min .. v.last.first.max }
+          mapped_images = mapped_images.each_pair.group_by { |_, x| x }.map_values { |_k, v| v.first.first.min..v.last.first.max }
           return mapped_images
         end
       end

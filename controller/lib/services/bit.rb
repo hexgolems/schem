@@ -1,3 +1,4 @@
+# encoding: utf-8
 # BIT - bitmap for inferred types
 #
 # TYPES           Binary
@@ -31,7 +32,7 @@ module Schem
     end
 
     def find_bitmap(range)
-      range = (range .. range) if range.class != Range
+      range = (range..range) if range.class != Range
       keys = @bitmaps.keys
       keys = keys.select { |x| @bitmaps[x].range.intersection(range) == range }
       fail "found #{keys.length} bitmaps" unless keys.length <= 1
@@ -43,7 +44,7 @@ module Schem
       type = get(address)
       return nil unless type
       address = type.address
-      range = (address ... (address + (type.length)))
+      range = (address...(address + (type.length)))
       case type.type
         when :string then StringType.new(srv, range)
         when :int8, :int16, :int32, :int64, :pointer then IntegerType.new(srv, range, type.signed)

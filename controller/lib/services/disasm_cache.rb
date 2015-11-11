@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO comment
 module Schem
   # TODO comment

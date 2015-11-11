@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO document me
 module Schem
   # TODO document me
@@ -58,7 +59,7 @@ module Schem
           ebp: { ebp: (0..31), bp: (0..15), bpl: (0..7) },
           esi: { esi: (0..31), si: (0..15), sil: (0..7) },
           edi: { edi: (0..31), di: (0..15), dil: (0..7) },
-          esp: { esp: (0..31), spl: (0..7) },
+          esp: { esp: (0..31), spl: (0..7) }
         }
       }
       @instruction_pointer = { 64 => { rip: (0..63) }, 32 => { eip: (0..32) } }
@@ -68,7 +69,7 @@ module Schem
         ds: { ds: (0..63) },
         es: { es: (0..63) },
         fs: { fs: (0..63) },
-        gs: { gs: (0..63) },
+        gs: { gs: (0..63) }
       }
       @floating_point = {
         st0: { st0: (0..1) },
@@ -97,7 +98,7 @@ module Schem
           xmm4: { xmm4: (0..1) },
           xmm5: { xmm5: (0..1) },
           xmm6: { xmm6: (0..1) },
-          xmm7: { xmm7: (0..1) },
+          xmm7: { xmm7: (0..1) }
         },
         64 => {
           xmm0: { xmm0: (0..1) },
@@ -115,7 +116,7 @@ module Schem
           xmm12: { xmm12: (0..1) },
           xmm13: { xmm13: (0..1) },
           xmm14: { xmm14: (0..1) },
-          xmm15: { xmm15: (0..1) },
+          xmm15: { xmm15: (0..1) }
         }
       }
       @mm = {
@@ -126,7 +127,7 @@ module Schem
         mm4: { mm4: (0..64) },
         mm5: { mm5: (0..64) },
         mm6: { mm6: (0..64) },
-        mm7: { mm7: (0..64) },
+        mm7: { mm7: (0..64) }
       }
       @ymm = {
         32 => {
@@ -137,7 +138,7 @@ module Schem
           ymm4:  { ymm4h: (0..1), ymm4: (0..1) },
           ymm5:  { ymm5h: (0..1), ymm5: (0..1) },
           ymm6:  { ymm6h: (0..1), ymm6: (0..1) },
-          ymm7:  { ymm7h: (0..1), ymm7: (0..1) },
+          ymm7:  { ymm7h: (0..1), ymm7: (0..1) }
         },
         64 => {
           ymm0:  { ymm0h: (0..1), ymm0: (0..1) },
@@ -155,7 +156,7 @@ module Schem
           ymm12: { ymm12h: (0..1), ymm12: (0..1) },
           ymm13: { ymm13h: (0..1), ymm13: (0..1) },
           ymm14: { ymm14h: (0..1), ymm14: (0..1) },
-          ymm15: { ymm15h: (0..1), ymm15: (0..1) },
+          ymm15: { ymm15h: (0..1), ymm15: (0..1) }
         }
       }
       @reg_ranges64 = [@general_purpose[64], @instruction_pointer[64], @segment, @floating_point, @xmm, @ymm].reduce({}) { |h, e| h.merge! e; h }.flatten_hash
@@ -164,7 +165,7 @@ module Schem
       @reg_length32 = @reg_ranges32.map_values { |_k, v| v = v.size }
       @reg_length = {
         32 => @reg_length32,
-        64 => @reg_length64,
+        64 => @reg_length64
       }
       @mxcsr = {
         FZ: at_i(15), 'R+'.to_sym => at_i(14), 'R-'.to_sym => at_i(13),
@@ -197,16 +198,14 @@ module Schem
         floating_point: reg_as_hash(@floating_point),
         mxcsr: mxcsr_as_hash,
         xmm: reg_as_hash(@xmm),
-        ymm: reg_as_hash(@ymm),
+        ymm: reg_as_hash(@ymm)
       }
     end
 
     def reg_as_hash(reg)
       reg.map_values do |reg_name, reg_val|
         reg_val.map_values do |sub_reg_name, _sub_reg_val|
-          unless registers
-            next 'nil'
-          end
+          next 'nil' unless registers
           val = get_value_hex sub_reg_name if sub_reg_name != :value
           val = get_value_hex reg_name if sub_reg_name == :value
           val
@@ -284,7 +283,7 @@ module Schem
     def register(name, options)
       self_class = (class << self; self; end)
       self_class.send(:define_method, name) do
-        return get_value(options[ [srv.obj.arch, srv.obj.word_width]])
+        return get_value(options[[srv.obj.arch, srv.obj.word_width]])
       end
     end
   end

@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Schem
   # The InferredType class offers functionality for storing information about
   # memory value types

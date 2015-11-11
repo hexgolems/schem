@@ -3,7 +3,6 @@ require './lib/generator.rb'
 require 'wrong/adapters/rspec'
 
 describe 'SEQ::Generator#need_init?' do
-
   it 'returns true in the first iteration' do
     g = SEQ::Generator.new([nil, nil, nil])
     assert { g.need_init? == true }
@@ -23,11 +22,9 @@ describe 'SEQ::Generator#need_init?' do
     assert { g.need_init? == false }
     g.index = 2
     assert { g.need_init? == true }
-
   end
 
   it 'returns true if the loop counter equals the number of iterations since the last reset' do
-
     module SEQ
       class Generator
         attr_accessor :iteration, :index
@@ -41,19 +38,16 @@ describe 'SEQ::Generator#need_init?' do
     assert { g.need_init? == true }
     g.index += 1
     assert { g.need_init? == false }
-
   end
 end
 
 describe 'SEQ::Generator#step' do
-
   it 'returns the initial value if re-initialised with a steping program' do
     g = SEQ::Generator.new(['(2..3)', [:step, 'v = v'], [:times, '1']])
     assert { g.step('line') == (2..3) }
   end
 
   it 'returns the first element if re-initialised with a program without step' do
-
     g = SEQ::Generator.new(['(3..5)', nil, [:times, '1']])
     assert { g.step('line') == 3 }
 
@@ -86,7 +80,6 @@ describe 'SEQ::Generator#step' do
   end
 
   it 'execute loop- & stepless programs' do
-
     g = SEQ::Generator.new(['(1..2)', nil, nil])
     assert { g.step('line') == 1 }
     assert { g.step('line') == 2 }

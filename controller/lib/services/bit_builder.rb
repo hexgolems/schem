@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Schem
   # The BitExtractor extracts information from Metasm and puts it into a Bitmap for Inferred Types (BIT)
   class BitExtractorService < BaseService

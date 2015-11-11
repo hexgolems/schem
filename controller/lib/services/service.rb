@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'ostruct'
 
 # TODO document me

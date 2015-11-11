@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'monitor'
 require 'metasm'
 
@@ -71,9 +72,9 @@ module Schem
         dasm.strings_scan.each do |address, str|
           address = image_obj.map_address(address)
           tags << Tag.new(
-                "'#{ str.inspect[1..-2] }'",
-                (address..address + str.length),
-                :type_info, type: :string)
+            "'#{ str.inspect[1..-2] }'",
+            (address..address + str.length),
+            :type_info, type: :string)
         end
       end
       tags
